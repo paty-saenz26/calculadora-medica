@@ -6,6 +6,7 @@ Proyecto de Aplicaciones Móviles (Expo + React Native + TypeScript). Se desarro
 1. Lee `specs/constitution.md` (principios no negociables).
 2. Lee `specs/00-project.md` (alcance y decisiones D1 a D15) y `specs/02-data-model.md`.
 3. Para una funcionalidad, lee su spec en `specs/features/`; para una calculadora, la suya en `specs/calculators/`.
+4. Lee también `AGENTS.md` (guías de Expo).
 
 ## Reglas de trabajo
 - Implementa **una tarea a la vez** de la sección Tasks de la spec, sin agregar funcionalidades nuevas.
