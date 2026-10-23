@@ -31,7 +31,7 @@ Cada dependencia debe justificarse (P8). Se instalan con `npx expo install` para
 Sigue las capas de la constitución (P7): UI → dominio puro → datos.
 
 ```
-app/                      Pantallas y rutas (expo-router). Solo UI.
+src/app/                  Pantallas y rutas (expo-router; la plantilla las pone dentro de src). Solo UI.
   _layout.tsx             Raíz: carga fuentes, sesión y bienvenida
   bienvenida.tsx
   (tabs)/
@@ -53,7 +53,7 @@ app/                      Pantallas y rutas (expo-router). Solo UI.
     editar-nota.tsx
     datos-invitado.tsx
 
-src/
+src/                      (junto a app/)
   domain/                 Dominio puro en TypeScript. SIN React, Expo ni Firebase.
     tipos.ts              Calculadora, Campo, Resultado, CalculoGuardado, Favorito
     motor.ts              Validación, conversión de unidades y cálculo en vivo
@@ -82,7 +82,7 @@ __tests__/                Pruebas (unitarias junto a su dominio, integración ap
 
 Reglas de la arquitectura:
 - `src/domain` no importa nada de React, Expo ni Firebase (P7). Todo cálculo y toda regla de las specs se prueba ahí con Jest, sin teléfono.
-- `app/` y `src/ui` no hacen cálculos: llaman al dominio y muestran el resultado.
+- `src/app` y `src/ui` no hacen cálculos: llaman al dominio y muestran el resultado.
 - `src/data` es la única capa que conoce AsyncStorage y Firestore. Los stores la usan, la UI no.
 - Agregar una calculadora = un archivo nuevo en `domain/calculadoras/` y una línea en `catalogo.ts`; no se toca la UI (P7).
 - Los colores y la tipografía salen de `ui/tema.ts`, nunca sueltos en las pantallas.
