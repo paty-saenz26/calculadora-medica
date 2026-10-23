@@ -57,9 +57,7 @@ Definido:
 - Compartir: tarjeta como imagen (`react-native-view-shot` + `expo-sharing`) y texto con la Share API nativa.
 - Pruebas: Jest (unitarias de dominio) y pruebas de integración de flujos.
 
-Pendiente de decidir en el plan:
-- Estado global: se sugiere Zustand.
-- Navegación: expo-router o React Navigation.
+- Navegación: **expo-router**. Estado global: **Zustand**. Firebase: **JS SDK**. Detalle en `plan.md` (D22 a D24).
 
 ## 3.1 Diseño visual
 
@@ -101,7 +99,7 @@ Reglas:
 | Persistencia local | P2, P3 (AsyncStorage) |
 | Backend (REST o Firebase, ≥5 endpoints) | Firebase aprobado por el docente: Auth y Firestore (operaciones listadas en F01, F04, F05, F07) |
 | Feature nativa | F06 compartir resultado (confirmada por el docente como la adecuada) |
-| Estado global | Pendiente (Zustand sugerido) |
+| Estado global | Zustand (`plan.md`, D23) |
 | ≥3 formularios validados | Login, registro y formularios de calculadoras (P6) |
 | Lista optimizada (FlatList paginada) | F05 historial |
 | ≥12 tests unitarios + 4 de integración | P1 (dominio) y flujos de F01, F05, F06 |
@@ -138,4 +136,6 @@ Reglas:
 
 - **v1.3.2 (23 oct 2026):** se adopta el estilo de cristal (versión G) con una sola forma curva de fondo.
 
-**Versión:** 1.3.2 · **Fecha:** 23 de octubre de 2026
+- **v1.4 (23 oct 2026):** se define el stack de navegación, estado y Firebase (expo-router, Zustand, Firebase JS SDK) y se crea `plan.md`.
+
+**Versión:** 1.4 · **Fecha:** 23 de octubre de 2026

@@ -77,9 +77,11 @@ Una app móvil en español que permite calcular fórmulas y escalas clínicas de
 | D19 | Cálculos repetidos | Un solo registro por visita, con el estado final al salir; si es idéntico al último de esa calculadora, no se duplica (F05) |
 | D20 | Eliminar | Diálogo de confirmación "¿Eliminar este cálculo?" con Cancelar y Eliminar (F05) |
 | D21 | Diseño visual | Verde suave (`#507858` y `#284C3B`) sobre fondo blanco, estilo moderno de esquinas muy redondeadas, tipografía Hanken Grotesk y nombres de calculadoras en negritas, y efecto de tarjetas de cristal con una sola forma curva de fondo (constitución, sección 3.1) |
+| D22 | Navegación | expo-router (`plan.md`) |
+| D23 | Estado global | Zustand (`plan.md`) |
+| D24 | Paquete de Firebase | Firebase JS SDK, compatible con Expo Go (`plan.md`) |
 
 ## Pendientes
 
 - [ ] Nombre definitivo de la app y logotipo.
-- [ ] Estado global (se sugiere Zustand).
 - [ ] Calculadoras adicionales que se quieran subir al MVP.
