@@ -51,13 +51,13 @@ App móvil en español que agiliza la práctica médica mediante el cálculo pre
 
 ## 3. Stack técnico
 Definido:
+- Backend: **Firebase** (Authentication + Firestore), confirmado por el docente el 18 oct 2026.
 - Expo + React Native + TypeScript en modo estricto.
 - Persistencia local: AsyncStorage.
 - Compartir: tarjeta como imagen (`react-native-view-shot` + `expo-sharing`) y texto con la Share API nativa.
 - Pruebas: Jest (unitarias de dominio) y pruebas de integración de flujos.
 
 Pendiente de decidir en el plan:
-- Backend: Firebase (Auth + Firestore) o API REST.
 - Estado global: se sugiere Zustand.
 - Navegación: expo-router o React Navigation.
 
@@ -69,8 +69,8 @@ Pendiente de decidir en el plan:
 | Navegación (≥5 pantallas, Stack, Tabs, Modal) | `01-navigation.md` |
 | CRUD de una entidad principal | F05 historial |
 | Persistencia local | P2, P3 (AsyncStorage) |
-| Backend (REST o Firebase, ≥5 endpoints) | Pendiente: confirmar con el docente |
-| Feature nativa | F06 compartir resultado |
+| Backend (REST o Firebase, ≥5 endpoints) | Firebase aprobado por el docente: Auth y Firestore (operaciones listadas en F01, F04, F05, F07) |
+| Feature nativa | F06 compartir resultado (confirmada por el docente como la adecuada) |
 | Estado global | Pendiente (Zustand sugerido) |
 | ≥3 formularios validados | Login, registro y formularios de calculadoras (P6) |
 | Lista optimizada (FlatList paginada) | F05 historial |
@@ -100,4 +100,6 @@ Pendiente de decidir en el plan:
 - **v1.0 (1 oct 2026):** versión inicial (app offline, sin cuentas ni backend).
 - **v1.1 (9 oct 2026):** se incorporan los requisitos del curso y las decisiones D1 a D7 (`00-project.md`): modo invitado con cuenta opcional, nube para sincronización, historial automático con nota, resultado en vivo, compartir como imagen y texto. P2 y P3 reescritos; se agrega el cumplimiento de la rúbrica.
 
-**Versión:** 1.1 · **Fecha:** 9 de octubre de 2026
+- **v1.2 (18 oct 2026):** el docente confirma Firebase como backend y compartir como feature nativa suficiente.
+
+**Versión:** 1.2 · **Fecha:** 18 de octubre de 2026

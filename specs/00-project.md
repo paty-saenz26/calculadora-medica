@@ -71,10 +71,11 @@ Una app móvil en español que permite calcular fórmulas y escalas clínicas de
 | D13 | Cambio de unidad | Regla de seguridad: al cambiar la unidad de un campo con valor, el número se convierte a la nueva unidad |
 | D14 | Unidades | En toda calculadora con unidades alternables el usuario siempre puede cambiarlas con el botón de flechas; la creatinina inicia en mg/dL |
 | D15 | Campos sí/no | Pueden iniciar en "No" (por ejemplo, en CHA₂DS₂-VASc) y el usuario cambia a "Sí" cuando aplique; los campos con valor inicial no cuentan como pendientes |
+| D16 | Backend | Firebase (Authentication + Firestore). Confirmado por el docente el 18 oct 2026 |
+| D17 | Feature nativa | Compartir (F06). El docente la confirmó como la más adecuada al proyecto |
 
 ## Pendientes
 
-- [ ] Backend: Firebase o API REST (confirmar con el docente si Firebase cuenta para los 5 endpoints).
 - [ ] Diseño visual: colores, estilo y nombre definitivo.
 - [ ] Estado global (se sugiere Zustand).
 - [ ] Calculadoras adicionales que se quieran subir al MVP.

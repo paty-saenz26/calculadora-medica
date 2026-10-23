@@ -93,4 +93,4 @@ El destinatario recibe un resumen legible del cálculo, sin información persona
 
 - [ ] Diseño visual definitivo de la tarjeta (depende de paleta y nombre).
 - [ ] Formato final del texto.
-- [ ] Confirmar con el docente si una sola feature nativa basta para la rúbrica.
+- [x] Feature nativa confirmada por el docente (18 oct 2026).

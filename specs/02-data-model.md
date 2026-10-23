@@ -1,6 +1,6 @@
 # Modelo de datos
 
-> Versión 0.1 (borrador). Primero se describen las entidades; la herramienta de almacenamiento se decide en el plan.
+> Versión 0.2 (borrador). Primero se describen las entidades; la herramienta de almacenamiento se decide en el plan.
 
 ## Entidades
 
@@ -119,7 +119,17 @@ OperacionPendiente {  // cola de guardados sin conexión (D6)
 - **R7.** Al aceptar el aviso de D8, los cálculos y favoritos locales se crean en la cuenta; los favoritos repetidos se fusionan en uno solo.
 - **R8.** La pestaña **Recientes** no es una entidad: se deriva del historial, tomando la fecha más reciente por calculadora. Una calculadora abierta sin resultado válido no aparece.
 
+- **R9.** La nota tiene máximo 200 caracteres; una nota vacía se elimina (F05).
+- **R10.** Si los valores, unidades y versión son idénticos al último cálculo guardado de esa calculadora, no se crea otro (B1, F05).
+
+## Estructura en Firebase (D16)
+
+```
+usuarios/{uid}/calculos/{calculoId}        -> CalculoGuardado
+usuarios/{uid}/favoritos/{calculadoraId}   -> Favorito
+```
+
+Reglas de seguridad: solo el dueño (`request.auth.uid == uid`) lee y escribe (R6). El usuario y su contraseña los maneja Firebase Authentication.
+
 ## Pendientes del modelo
-- [ ] Longitud máxima de la nota (se define en la spec de F05).
-- [ ] Qué hacer si el usuario vuelve a una calculadora con los mismos valores que el último guardado (¿duplicar o no?) (se define en la spec de F05).
-- [ ] Estructura concreta en la nube (depende de la decisión de backend).
+- [ ] Definir cómo funciona la cola de pendientes con la caché sin conexión de Firestore (se decide en el plan).
