@@ -20,10 +20,10 @@ Cada dependencia debe justificarse (P8). Se instalan con `npx expo install` para
 | `zustand` | Estado global (D23) |
 | `firebase` | Authentication y Firestore (D24) |
 | `@react-native-async-storage/async-storage` | Persistencia local (P2, P3) y sesión de Firebase |
-| `expo-blur` | Efecto cristal (constitución, sección 3.1) |
+| `expo-blur` y `expo-linear-gradient` | Efecto cristal y fondo degradado (constitución, sección 3.1) |
 | `expo-font` y `@expo-google-fonts/hanken-grotesk` | Tipografía |
 | `react-native-view-shot` y `expo-sharing` | Compartir la tarjeta como imagen (F06) |
-| `@expo/vector-icons` (ya viene con Expo) | Íconos |
+| `@expo/vector-icons` | Íconos (pestañas, volver, avisos) |
 | Desarrollo: `jest`, `jest-expo`, `@testing-library/react-native`, `@types/jest` | Pruebas unitarias y de integración |
 
 ## Estructura de carpetas

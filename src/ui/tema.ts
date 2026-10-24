@@ -18,6 +18,11 @@ export const colores = {
   degradadoFin: '#C9DFBF',
   formaInicio: '#CFE3C0',
   formaFin: '#B9D7A3',
+  // Cristal
+  cristal: 'rgba(255,255,255,0.40)', // opacidad del cristal: más bajo = más translúcido
+  cristalBorde: 'rgba(255,255,255,0.75)',
+  // PROVISIONAL: los colores semánticos siguen pendientes de definir (constitución, 3.1).
+  error: '#B3261E',
 } as const;
 
 // Nombres de las fuentes cargadas en src/app/_layout.tsx
