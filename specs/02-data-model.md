@@ -13,6 +13,7 @@ Calculadora {
   nombre
   descripcion   // una línea, se muestra en la lista
   especialidades // para la pestaña Especialidades
+  palabrasClave? // siglas y nombres alternos para la búsqueda (F02)
   version       // sube cuando cambia la fórmula, los campos o el redondeo
   fuente        // cita de la referencia clínica
   campos        // lista de Campo
@@ -54,6 +55,7 @@ Resultado {
   valor         // número o puntaje
   unidad?
   interpretacion // texto breve
+  detalles?     // resultados secundarios (por ejemplo, la superficie corporal en C04)
 }
 ```
 

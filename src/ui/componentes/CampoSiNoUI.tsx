@@ -28,7 +28,7 @@ export function CampoSiNoUI({ campo, valor, onCambiar }: Props) {
         <Text style={estilos.etiqueta}>{campo.etiqueta}</Text>
         <View style={estilos.opciones}>
           {boton(valor === false, 'No', false)}
-          {boton(valor === true, 'Sí', true)}
+          {boton(valor === true, campo.puntos ? `Sí (+${campo.puntos})` : 'Sí', true)}
         </View>
       </View>
     </Cristal>
@@ -42,6 +42,7 @@ const estilos = StyleSheet.create({
   opcion: {
     minHeight: 52,
     minWidth: 72,
+    flexShrink: 0,
     paddingHorizontal: 16,
     borderRadius: 999,
     alignItems: 'center',

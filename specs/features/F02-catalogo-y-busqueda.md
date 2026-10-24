@@ -68,9 +68,9 @@ El médico llega a la calculadora deseada en dos toques o menos desde Recientes 
 
 ## Tasks
 
-- [ ] Agregar `palabrasClave` (siglas y nombres alternos) a la definición de calculadora en `02-data-model.md`.
-- [ ] Escribir la función de dominio `buscarCalculadoras(catalogo, texto)` con normalización de acentos y pruebas.
-- [ ] Escribir las funciones que derivan Recientes y Favoritas con pruebas.
+- [x] Agregar `palabrasClave` (siglas y nombres alternos) a la definición de calculadora en `02-data-model.md`.
+- [x] Escribir la función de dominio `buscarCalculadoras(catalogo, texto)` con normalización de acentos y pruebas.
+- [x] Escribir las funciones que derivan Recientes y Favoritas con pruebas.
 - [ ] Pantalla Inicio con barra de búsqueda y pestañas.
 - [ ] Vista de Especialidades y su lista.
 - [ ] Estados vacíos.

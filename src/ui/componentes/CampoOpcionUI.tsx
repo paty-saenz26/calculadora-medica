@@ -2,6 +2,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { CampoOpcion } from '../../domain/tipos';
 import { colores, fuentes } from '../tema';
+
+const conPuntos = (etiqueta: string, puntos?: number) =>
+  puntos === undefined ? etiqueta : `${etiqueta} (${puntos > 0 ? '+' : ''}${puntos})`;
 import { Cristal } from './Cristal';
 
 type Props = {
@@ -26,7 +29,7 @@ export function CampoOpcionUI({ campo, valor, onCambiar }: Props) {
                 onPress={() => onCambiar(o.valor)}
                 style={[estilos.opcion, activa && estilos.opcionActiva]}
               >
-                <Text style={[estilos.texto, activa && estilos.textoActivo]}>{o.etiqueta}</Text>
+                <Text style={[estilos.texto, activa && estilos.textoActivo]}>{conPuntos(o.etiqueta, o.puntos)}</Text>
               </Pressable>
             );
           })}

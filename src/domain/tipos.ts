@@ -56,6 +56,8 @@ export type Resultado = {
   valor: number;
   unidad?: string;
   interpretacion: string;
+  /** Resultados secundarios que se muestran junto al principal (por ejemplo, la superficie corporal). */
+  detalles?: { etiqueta: string; valor: string; unidad?: string }[];
 };
 
 /** Regla entre campos. Se evalúa solo cuando todos los campos involucrados tienen valor. */

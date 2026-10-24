@@ -30,6 +30,11 @@ export function BarraResultado({ estado, compacta = false }: Props) {
                 <Text style={estilos.valorCompacto}>{resultado.valor}</Text>
                 {resultado.unidad ? <Text style={estilos.unidad}>{resultado.unidad}</Text> : null}
               </View>
+              {resultado.detalles?.map((d) => (
+                <Text key={d.etiqueta} style={estilos.detalle}>
+                  {d.etiqueta}: {d.valor} {d.unidad}
+                </Text>
+              ))}
             </>
           ) : (
             <>
@@ -38,6 +43,11 @@ export function BarraResultado({ estado, compacta = false }: Props) {
                 <Text style={estilos.valor}>{resultado.valor}</Text>
                 {resultado.unidad ? <Text style={estilos.unidad}>{resultado.unidad}</Text> : null}
               </View>
+              {resultado.detalles?.map((d) => (
+                <Text key={d.etiqueta} style={estilos.detalle}>
+                  {d.etiqueta}: {d.valor} {d.unidad}
+                </Text>
+              ))}
               <Text style={estilos.interpretacion}>{resultado.interpretacion}</Text>
             </>
           )
@@ -69,6 +79,7 @@ const estilos = StyleSheet.create({
   valor: { fontFamily: fuentes.delgada, fontSize: 64, lineHeight: 72, color: colores.textoPrincipal },
   valorCompacto: { fontFamily: fuentes.delgada, fontSize: 40, lineHeight: 44, color: colores.textoPrincipal },
   unidad: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoSobreCristal },
+  detalle: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   interpretacion: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal },
   mensaje: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
   filaAviso: { flexDirection: 'row', alignItems: 'center', gap: 8 },
