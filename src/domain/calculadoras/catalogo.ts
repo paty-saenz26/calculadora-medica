@@ -13,6 +13,11 @@ import { ecog } from './ecog';
 import { glasgow } from './glasgow';
 import { wellsTep } from './wells-tep';
 import { westHaven } from './west-haven';
+import { acrEular2010 } from './acr-eular-2010';
+import { caspar } from './caspar';
+import { decaf } from './decaf';
+import { egsys } from './egsys';
+import { nihss } from './nihss';
 import type { Calculadora } from '../tipos';
 
 /** Registro de todas las calculadoras. Agregar una = un archivo nuevo + una línea aquí (P7). */
@@ -32,6 +37,11 @@ export const catalogo: Calculadora[] = [
   childPugh,
   ecog,
   westHaven,
+  nihss,
+  caspar,
+  acrEular2010,
+  egsys,
+  decaf,
 ];
 
 export function obtenerCalculadora(id: string): Calculadora | undefined {

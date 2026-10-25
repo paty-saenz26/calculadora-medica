@@ -66,10 +66,10 @@ describe('agruparPorEspecialidad', () => {
   const grupo = (nombre: string) => grupos.find((g) => g.especialidad === nombre);
 
   it('agrupa por especialidad', () => {
-    expect(grupo('Cardiovascular')?.calculadoras.map((c) => c.id).sort()).toEqual(['cha2ds2-va', 'cha2ds2-vasc', 'pam']);
+    expect(grupo('Cardiovascular')?.calculadoras.map((c) => c.id).sort()).toEqual(['cha2ds2-va', 'cha2ds2-vasc', 'egsys', 'pam']);
     expect(grupo('Renal')?.calculadoras.map((c) => c.id).sort()).toEqual(['aclaramiento-creatinina', 'ckd-epi-2021', 'deficit-bicarbonato']);
     expect(grupo('Gastroenterología')?.calculadoras.map((c) => c.id).sort()).toEqual(['child-pugh', 'fib4', 'west-haven']);
-    expect(grupo('Neumología')?.calculadoras.map((c) => c.id).sort()).toEqual(['stop-bang', 'wells-tep']);
+    expect(grupo('Neumología')?.calculadoras.map((c) => c.id).sort()).toEqual(['decaf', 'stop-bang', 'wells-tep']);
   });
 
   it('una calculadora con varias especialidades aparece en cada una', () => {
