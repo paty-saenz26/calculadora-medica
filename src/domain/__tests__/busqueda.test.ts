@@ -25,7 +25,7 @@ describe('buscarCalculadoras', () => {
 
   it('no distingue mayúsculas ni acentos', () => {
     expect(ids('PRESION')).toEqual(['pam']);
-    expect(ids('creatinina')).toEqual(['aclaramiento-creatinina']);
+    expect(ids('creatinina')).toEqual(expect.arrayContaining(['aclaramiento-creatinina', 'ckd-epi-2021']));
   });
 
   it('encuentra por siglas y nombres alternos', () => {
@@ -35,12 +35,23 @@ describe('buscarCalculadoras', () => {
     expect(ids('IMC')).toEqual(['imc-sc']);
   });
 
-  it('escribir CHA2DS2 sin subíndices encuentra CHA₂DS₂-VASc', () => {
-    expect(ids('cha2ds2')).toEqual(['cha2ds2-vasc']);
+  it('escribir CHA2DS2 sin subíndices encuentra CHA₂DS₂-VASc y CHA₂DS₂-VA', () => {
+    expect(ids('cha2ds2')).toEqual(['cha2ds2-vasc', 'cha2ds2-va']);
+  });
+
+  it('el nombre exacto de la variante sin sexo la deja como coincidencia', () => {
+    expect(ids('cha2ds2-va')).toContain('cha2ds2-va');
   });
 
   it('encuentra por la descripción', () => {
-    expect(ids('ictus')).toEqual(['cha2ds2-vasc']);
+    expect(ids('ictus')).toEqual(expect.arrayContaining(['cha2ds2-vasc', 'cha2ds2-va']));
+  });
+
+  it('encuentra las calculadoras nuevas por sus siglas', () => {
+    expect(ids('TFG')).toContain('ckd-epi-2021');
+    expect(ids('apnea')).toEqual(['stop-bang']);
+    expect(ids('fibrosis')).toEqual(['fib4']);
+    expect(ids('HCO3')).toEqual(['deficit-bicarbonato']);
   });
 
   it('varias palabras deben aparecer todas', () => {

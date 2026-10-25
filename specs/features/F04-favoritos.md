@@ -53,16 +53,6 @@ Médico, invitado o con cuenta.
 
 Marcar o desmarcar es instantáneo y se conserva al cerrar la app y, con cuenta, al cambiar de teléfono.
 
-## Estructura en Firebase y operaciones (para la rúbrica)
-
-Colección `usuarios/{uid}/favoritos/{calculadoraId}` (el ID del documento es el de la calculadora, así no hay duplicados). Mismas reglas de seguridad que el historial.
-
-| # | Operación | Servicio |
-|---|---|---|
-| 9 | Agregar favorito | Firestore |
-| 10 | Quitar favorito | Firestore |
-| 11 | Listar favoritos | Firestore |
-
 ## Criterios de aceptación
 
 - [ ] La estrella aparece en la fila del catálogo y en la pantalla de la calculadora, y ambas muestran el mismo estado.
@@ -83,4 +73,5 @@ Colección `usuarios/{uid}/favoritos/{calculadoraId}` (el ID del documento es el
 
 ## Pendientes
 
+- [ ] Estructura en la nube (depende de la decisión Firebase o API REST).
 - [ ] Decidir si se permite reordenar manualmente las favoritas (fuera del MVP por ahora).

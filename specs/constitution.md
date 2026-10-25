@@ -51,43 +51,15 @@ App móvil en español que agiliza la práctica médica mediante el cálculo pre
 
 ## 3. Stack técnico
 Definido:
-- Backend: **Firebase** (Authentication + Firestore), confirmado por el docente el 18 oct 2026.
 - Expo + React Native + TypeScript en modo estricto.
 - Persistencia local: AsyncStorage.
 - Compartir: tarjeta como imagen (`react-native-view-shot` + `expo-sharing`) y texto con la Share API nativa.
 - Pruebas: Jest (unitarias de dominio) y pruebas de integración de flujos.
 
-- Navegación: **expo-router**. Estado global: **Zustand**. Firebase: **JS SDK**. Detalle en `plan.md` (D22 a D24).
-
-## 3.1 Diseño visual
-
-Definido a partir de la prueba de paleta (opción D, verde suave, 23 oct 2026). Los valores son tokens del tema de la app, nunca colores sueltos en las pantallas.
-
-| Token | Valor | Uso |
-|---|---|---|
-| Fondo | `#FFFFFF` | Fondo de todas las pantallas |
-| Primario | `#507858` | Botones, barra de pestañas, foco de campos, íconos de volver y favorito |
-| Primario claro | `#6B9460` | Solo decorativo (degradado de los cuadros de ícono) |
-| Texto principal | `#284C3B` | Títulos, nombres de calculadoras y valores |
-| Texto secundario | `#507858` | Pistas, unidades, fuente y avisos |
-| Chip de especialidad | `#DCEBD8` con texto `#284C3B` | Etiquetas como la especialidad |
-| Fondo suave | `#EAF2E7` | Chip de interpretación y formas decorativas de fondo (también `#F3F8F1`) |
-| Borde | `#DCE8D8` | Contorno de tarjetas y botones sobre fondo blanco |
-| Verde de acento (de la paleta original) | `#84AB7A` | Resplandor del campo activo; nunca texto |
-
-Texto sobre `#507858`: siempre blanco. Texto sobre `#84AB7A` o más claro: siempre `#284C3B`.
-
-Reglas:
-- Estilo: esquinas muy redondeadas (tarjetas de 24 px o más), botones en forma de píldora y botones de volver y favorito circulares.
-- **Efecto cristal (versión G de la prueba de paleta):** las tarjetas de campos, el resultado, los chips, los botones circulares y la barra de pestañas flotante son de cristal: blanco al 55% de opacidad, desenfoque de 18 px con saturación, borde blanco fino y un destello blanco en el borde superior. El botón Compartir y la pestaña activa son sólidos en `#507858` con texto blanco.
-- **Fondo:** degradado verde muy claro (`#F3F8F1` a `#C9DFBF`) con **una sola** forma de media circunferencia en verde claro (`#CFE3C0` a `#B9D7A3`) pegada al borde derecho, que sobresale unos 100 px. No se usan más formas.
-- **Texto sobre cristal:** el secundario (unidades, pistas) va en `#355A41`, porque `#507858` no alcanza el contraste sobre fondos que cambian. Los nombres, valores y la fuente van en `#284C3B`.
-- En la app, el desenfoque se hace con `expo-blur` (a verificar en el plan, junto con el módulo de efecto cristal de iOS 26). Se prueba en un iPhone real. Si el desenfoque afecta el rendimiento en listas largas (catálogo e historial), las filas de las listas usan tarjetas blancas sólidas con borde `#DCE8D8` y el cristal queda para las pantallas de calculadora, el resultado y la barra de pestañas.
-- **Los nombres de las calculadoras van siempre en negritas** (título de la pantalla, listas del catálogo y del historial).
-- Contraste mínimo de 4.5:1 en texto normal y 3:1 en texto grande (P4, P6).
-- Estados de error, advertencia y éxito usan colores semánticos **distintos del color de marca** (error en rojo, advertencia en ámbar) y siempre llevan ícono o texto, no solo color. Como la marca es verde, el éxito se marca con ícono. Sus valores exactos quedan pendientes.
-- Tipografía: Hanken Grotesk (gratuita, de Google Fonts). Los números grandes de campos y resultados van en peso 200; el nombre de la calculadora en 700; etiquetas en 500; ningún texto menor a 18 px baja de peso 400. (Se probó Maison Neue, Century Gothic, Helvetica y Raleway; Hanken Grotesk se eligió por parecerse a Maison Neue, que es de pago.)
-- Ni el nombre definitivo ni el logotipo de la app están definidos.
+Pendiente de decidir en el plan:
+- Backend: Firebase (Auth + Firestore) o API REST.
+- Estado global: se sugiere Zustand.
+- Navegación: expo-router o React Navigation.
 
 ## 4. Cumplimiento de la rúbrica del curso
 
@@ -97,9 +69,9 @@ Reglas:
 | Navegación (≥5 pantallas, Stack, Tabs, Modal) | `01-navigation.md` |
 | CRUD de una entidad principal | F05 historial |
 | Persistencia local | P2, P3 (AsyncStorage) |
-| Backend (REST o Firebase, ≥5 endpoints) | Firebase aprobado por el docente: Auth y Firestore (operaciones listadas en F01, F04, F05, F07) |
-| Feature nativa | F06 compartir resultado (confirmada por el docente como la adecuada) |
-| Estado global | Zustand (`plan.md`, D23) |
+| Backend (REST o Firebase, ≥5 endpoints) | Pendiente: confirmar con el docente |
+| Feature nativa | F06 compartir resultado |
+| Estado global | Pendiente (Zustand sugerido) |
 | ≥3 formularios validados | Login, registro y formularios de calculadoras (P6) |
 | Lista optimizada (FlatList paginada) | F05 historial |
 | ≥12 tests unitarios + 4 de integración | P1 (dominio) y flujos de F01, F05, F06 |
@@ -128,14 +100,4 @@ Reglas:
 - **v1.0 (1 oct 2026):** versión inicial (app offline, sin cuentas ni backend).
 - **v1.1 (9 oct 2026):** se incorporan los requisitos del curso y las decisiones D1 a D7 (`00-project.md`): modo invitado con cuenta opcional, nube para sincronización, historial automático con nota, resultado en vivo, compartir como imagen y texto. P2 y P3 reescritos; se agrega el cumplimiento de la rúbrica.
 
-- **v1.2 (18 oct 2026):** el docente confirma Firebase como backend y compartir como feature nativa suficiente.
-
-- **v1.3 (23 oct 2026):** se define la paleta y el estilo visual (sección 3.1).
-
-- **v1.3.1 (23 oct 2026):** la paleta oficial es la opción D (verde suave) con Hanken Grotesk; se agrega la regla de negritas en nombres de calculadoras.
-
-- **v1.3.2 (23 oct 2026):** se adopta el estilo de cristal (versión G) con una sola forma curva de fondo.
-
-- **v1.4 (23 oct 2026):** se define el stack de navegación, estado y Firebase (expo-router, Zustand, Firebase JS SDK) y se crea `plan.md`.
-
-**Versión:** 1.4 · **Fecha:** 23 de octubre de 2026
+**Versión:** 1.1 · **Fecha:** 9 de octubre de 2026

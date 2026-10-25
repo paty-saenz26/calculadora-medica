@@ -71,17 +71,10 @@ Una app móvil en español que permite calcular fórmulas y escalas clínicas de
 | D13 | Cambio de unidad | Regla de seguridad: al cambiar la unidad de un campo con valor, el número se convierte a la nueva unidad |
 | D14 | Unidades | En toda calculadora con unidades alternables el usuario siempre puede cambiarlas con el botón de flechas; la creatinina inicia en mg/dL |
 | D15 | Campos sí/no | Pueden iniciar en "No" (por ejemplo, en CHA₂DS₂-VASc) y el usuario cambia a "Sí" cuando aplique; los campos con valor inicial no cuentan como pendientes |
-| D16 | Backend | Firebase (Authentication + Firestore). Confirmado por el docente el 18 oct 2026 |
-| D17 | Feature nativa | Compartir (F06). El docente la confirmó como la más adecuada al proyecto |
-| D18 | Método de acceso | Correo y contraseña con Firebase Authentication (F01); mínimo 8 caracteres, con una letra y un número |
-| D19 | Cálculos repetidos | Un solo registro por visita, con el estado final al salir; si es idéntico al último de esa calculadora, no se duplica (F05) |
-| D20 | Eliminar | Diálogo de confirmación "¿Eliminar este cálculo?" con Cancelar y Eliminar (F05) |
-| D21 | Diseño visual | Verde suave (`#507858` y `#284C3B`) sobre fondo blanco, estilo moderno de esquinas muy redondeadas, tipografía Hanken Grotesk y nombres de calculadoras en negritas, y efecto de tarjetas de cristal con una sola forma curva de fondo (constitución, sección 3.1) |
-| D22 | Navegación | expo-router (`plan.md`) |
-| D23 | Estado global | Zustand (`plan.md`) |
-| D24 | Paquete de Firebase | Firebase JS SDK, compatible con Expo Go (`plan.md`) |
 
 ## Pendientes
 
-- [ ] Nombre definitivo de la app y logotipo.
+- [ ] Backend: Firebase o API REST (confirmar con el docente si Firebase cuenta para los 5 endpoints).
+- [ ] Diseño visual: colores, estilo y nombre definitivo.
+- [ ] Estado global (se sugiere Zustand).
 - [ ] Calculadoras adicionales que se quieran subir al MVP.
