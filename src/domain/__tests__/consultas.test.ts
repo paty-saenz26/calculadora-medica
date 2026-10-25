@@ -68,8 +68,8 @@ describe('agruparPorEspecialidad', () => {
   it('agrupa por especialidad', () => {
     expect(grupo('Cardiovascular')?.calculadoras.map((c) => c.id).sort()).toEqual(['cha2ds2-va', 'cha2ds2-vasc', 'pam']);
     expect(grupo('Renal')?.calculadoras.map((c) => c.id).sort()).toEqual(['aclaramiento-creatinina', 'ckd-epi-2021', 'deficit-bicarbonato']);
-    expect(grupo('Gastroenterología')?.calculadoras.map((c) => c.id)).toEqual(['fib4']);
-    expect(grupo('Neumología')?.calculadoras.map((c) => c.id)).toEqual(['stop-bang']);
+    expect(grupo('Gastroenterología')?.calculadoras.map((c) => c.id).sort()).toEqual(['child-pugh', 'fib4', 'west-haven']);
+    expect(grupo('Neumología')?.calculadoras.map((c) => c.id).sort()).toEqual(['stop-bang', 'wells-tep']);
   });
 
   it('una calculadora con varias especialidades aparece en cada una', () => {

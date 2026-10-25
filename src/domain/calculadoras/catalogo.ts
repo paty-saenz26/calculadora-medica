@@ -7,6 +7,12 @@ import { fib4 } from './fib4';
 import { imcSuperficieCorporal } from './imc-superficie-corporal';
 import { pam } from './pam';
 import { stopBang } from './stop-bang';
+import { abcd2 } from './abcd2';
+import { childPugh } from './child-pugh';
+import { ecog } from './ecog';
+import { glasgow } from './glasgow';
+import { wellsTep } from './wells-tep';
+import { westHaven } from './west-haven';
 import type { Calculadora } from '../tipos';
 
 /** Registro de todas las calculadoras. Agregar una = un archivo nuevo + una línea aquí (P7). */
@@ -20,6 +26,12 @@ export const catalogo: Calculadora[] = [
   deficitBicarbonato,
   ckdEpi2021,
   stopBang,
+  wellsTep,
+  abcd2,
+  glasgow,
+  childPugh,
+  ecog,
+  westHaven,
 ];
 
 export function obtenerCalculadora(id: string): Calculadora | undefined {
