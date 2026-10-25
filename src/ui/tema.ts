@@ -15,6 +15,7 @@ export const colores = {
   textoSobrePrimario: '#FFFFFF',
   // Fondo degradado y forma curva
   degradadoInicio: '#F3F8F1',
+  degradadoMedio: '#DCEBD8',
   degradadoFin: '#C9DFBF',
   formaInicio: '#CFE3C0',
   formaFin: '#B9D7A3',

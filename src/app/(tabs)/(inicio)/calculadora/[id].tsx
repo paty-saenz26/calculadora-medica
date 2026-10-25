@@ -10,6 +10,7 @@ import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
 import { evaluar } from '../../../../domain/motor';
 import type { Calculadora } from '../../../../domain/tipos';
 import { cambiarUnidad, type OrigenConversion } from '../../../../domain/unidades';
+import { useEspacioBarra } from '../../../../ui/barraPestanas';
 import { BarraResultado } from '../../../../ui/componentes/BarraResultado';
 import { CampoNumeroUI } from '../../../../ui/componentes/CampoNumeroUI';
 import { CampoOpcionUI } from '../../../../ui/componentes/CampoOpcionUI';
@@ -34,6 +35,7 @@ export default function PantallaCalculadora() {
 function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const espacioBarra = useEspacioBarra();
 
   const [valores, setValores] = useState<Record<string, string | boolean | undefined>>({});
   const [unidades, setUnidades] = useState<Record<string, string>>({});
@@ -162,7 +164,7 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
           </Text>
         </ScrollView>
 
-        <View style={[estilos.barra, { paddingBottom: tecladoVisible ? 8 : Math.max(insets.bottom, 12) }]}>
+        <View style={[estilos.barra, { paddingBottom: tecladoVisible ? 8 : espacioBarra }]}>
           <BarraResultado estado={estado} compacta={tecladoVisible} />
         </View>
       </KeyboardAvoidingView>

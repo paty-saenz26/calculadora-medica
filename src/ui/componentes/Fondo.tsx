@@ -1,22 +1,41 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { colores } from '../tema';
 
-/** Fondo de las pantallas: degradado verde claro con una sola media circunferencia a la derecha. */
+// Medidas del diseño G, pensado en una pantalla de 390 x 844.
+const DISENO = { ancho: 390, alto: 844 };
+const ELIPSE = { izquierda: 284, arriba: 59, ancho: 515, alto: 727 }; // asoma ~106 px por la derecha
+
+/** Fondo de las pantallas: degradado verde claro con una sola forma curva pegada al borde derecho. */
 export function Fondo({ children }: { children: ReactNode }) {
+  const { width, height } = useWindowDimensions();
+  const escalaX = width / DISENO.ancho;
+  const escalaY = height / DISENO.alto;
+
   return (
     <LinearGradient
-      colors={[colores.degradadoInicio, colores.degradadoFin]}
-      start={{ x: 0.2, y: 0 }}
-      end={{ x: 0.8, y: 1 }}
+      colors={[colores.degradadoInicio, colores.degradadoMedio, colores.degradadoFin]}
+      locations={[0, 0.5, 1]}
+      start={{ x: 0.4, y: 0 }}
+      end={{ x: 0.6, y: 1 }}
       style={estilos.fondo}
     >
       <View pointerEvents="none" style={[StyleSheet.absoluteFill, estilos.recorte]}>
         <LinearGradient
           colors={[colores.formaInicio, colores.formaFin]}
-          style={estilos.forma}
+          start={{ x: 0.67, y: 0 }}
+          end={{ x: 0.33, y: 1 }}
+          style={{
+            position: 'absolute',
+            left: ELIPSE.izquierda * escalaX,
+            top: ELIPSE.arriba * escalaY,
+            width: ELIPSE.ancho * escalaX,
+            height: ELIPSE.alto * escalaY,
+            borderRadius: 9999,
+            opacity: 0.9,
+          }}
         />
       </View>
       {children}
@@ -27,12 +46,4 @@ export function Fondo({ children }: { children: ReactNode }) {
 const estilos = StyleSheet.create({
   fondo: { flex: 1 },
   recorte: { overflow: 'hidden' },
-  forma: {
-    position: 'absolute',
-    right: -130, // sobresale unos 100 px
-    top: '38%',
-    width: 230,
-    height: 230,
-    borderRadius: 115,
-  },
 });

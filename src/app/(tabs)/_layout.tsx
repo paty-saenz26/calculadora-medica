@@ -1,19 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
-import { colores, fuentes } from '../../ui/tema';
+import { BarraPestanas } from '../../ui/componentes/BarraPestanas';
 
 export default function TabsLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colores.primario,
-        tabBarInactiveTintColor: colores.textoSobreCristal,
-        tabBarLabelStyle: { fontFamily: fuentes.media, fontSize: 12 },
-        tabBarStyle: { backgroundColor: colores.fondo, borderTopColor: colores.borde },
-      }}
-    >
+    <Tabs tabBar={(props) => <BarraPestanas {...props} />} screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="(inicio)"
         options={{

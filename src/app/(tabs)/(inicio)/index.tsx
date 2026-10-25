@@ -4,15 +4,17 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { catalogo } from '../../../domain/calculadoras/catalogo';
+import { useEspacioBarra } from '../../../ui/barraPestanas';
 import { Cristal } from '../../../ui/componentes/Cristal';
 import { Fondo } from '../../../ui/componentes/Fondo';
 import { colores, fuentes } from '../../../ui/tema';
 
 export default function Inicio() {
   const insets = useSafeAreaInsets();
+  const espacioBarra = useEspacioBarra();
   return (
     <Fondo>
-      <ScrollView contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 24 }]}>
+      <ScrollView contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 24, paddingBottom: espacioBarra + 16 }]}>
         <Text style={estilos.titulo}>Calculadoras</Text>
         <View style={estilos.lista}>
           {catalogo.map((c) => (
