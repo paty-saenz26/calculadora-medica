@@ -41,6 +41,16 @@ describe('almacén de historial y favoritos (invitado)', () => {
     expect(useA.getState().calculos).toHaveLength(1);
   });
 
+  it('un duplicado no se agrega pero sube al inicio del historial', () => {
+    const useA = crearAlmacen(memoria());
+    useA.getState().guardarCalculo(calculo('120', '80', 'a', 1));
+    useA.getState().guardarCalculo(calculo('100', '60', 'b', 2));
+    useA.getState().guardarCalculo(calculo('100', '60', 'c', 5));
+    const fechas = Object.fromEntries(useA.getState().calculos.map((c) => [c.id, c.fecha]));
+    expect(useA.getState().calculos).toHaveLength(2);
+    expect(fechas.b).toBe(5);
+  });
+
   it('edita la nota, la valida y la quita con texto vacío', () => {
     const useA = crearAlmacen(memoria());
     useA.getState().guardarCalculo(calculo('120', '80', 'a', 1));

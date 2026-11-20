@@ -43,6 +43,11 @@ export function ModalNota({ visible, notaInicial, onCancelar, onGuardar }: Props
                 {texto.length}/{LIMITE_NOTA}
               </Text>
               {!validacion.ok ? <Text style={estilos.error}>{validacion.mensaje}</Text> : null}
+              {notaInicial ? (
+                <Pressable accessibilityRole="button" onPress={() => onGuardar('')} style={estilos.quitar}>
+                  <Text style={estilos.textoQuitar}>Quitar nota</Text>
+                </Pressable>
+              ) : null}
               <View style={estilos.botones}>
                 <Pressable accessibilityRole="button" onPress={onCancelar} style={estilos.secundario}>
                   <Text style={estilos.textoSecundario}>Cancelar</Text>
@@ -89,5 +94,7 @@ const estilos = StyleSheet.create({
   textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal },
   primario: { paddingHorizontal: 18, paddingVertical: 12, borderRadius: 999, backgroundColor: colores.primario },
   textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePrimario },
+  quitar: { alignSelf: 'flex-start', paddingVertical: 6 },
+  textoQuitar: { fontFamily: fuentes.seminegrita, fontSize: 16, color: colores.error },
   desactivado: { opacity: 0.45 },
 });

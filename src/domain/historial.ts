@@ -70,16 +70,20 @@ const igualesPlano = (a: Record<string, unknown>, b: Record<string, unknown>) =>
 };
 
 /** R10 / D19: no se repite si valores, unidades y versión son idénticos al último cálculo de esa calculadora. */
-export function esDuplicado(nuevo: CalculoGuardado, existentes: CalculoGuardado[]): boolean {
+export function buscarDuplicado(nuevo: CalculoGuardado, existentes: CalculoGuardado[]): CalculoGuardado | undefined {
   const ultimo = existentes
     .filter((c) => c.calculadoraId === nuevo.calculadoraId && c.usuarioId === nuevo.usuarioId)
     .reduce<CalculoGuardado | undefined>((a, c) => (!a || c.fecha > a.fecha ? c : a), undefined);
-  return (
-    !!ultimo &&
+  return ultimo &&
     ultimo.calculadoraVersion === nuevo.calculadoraVersion &&
     igualesPlano(ultimo.valores, nuevo.valores) &&
     igualesPlano(ultimo.unidades, nuevo.unidades)
-  );
+    ? ultimo
+    : undefined;
+}
+
+export function esDuplicado(nuevo: CalculoGuardado, existentes: CalculoGuardado[]): boolean {
+  return buscarDuplicado(nuevo, existentes) !== undefined;
 }
 
 /** Más reciente primero. */

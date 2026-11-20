@@ -1,7 +1,7 @@
 // Historial (F05): lista paginada de 20 en 20, con scroll infinito, jalar para actualizar y estados vacío / error.
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../domain/calculadoras/catalogo';
@@ -77,7 +77,13 @@ export default function Historial() {
         onEndReachedThreshold={0.4}
         onEndReached={() => hayMas && setPagina((p) => p + 1)}
         refreshControl={<RefreshControl refreshing={actualizando} onRefresh={actualizar} tintColor={colores.primario} />}
-        contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 24, paddingBottom: espacioBarra + 16 }]}
+        // iOS: el margen superior va como inset para que el circulito de recarga salga debajo de la barra de estado.
+        contentInset={Platform.OS === 'ios' ? { top: insets.top + 24 } : undefined}
+        contentOffset={Platform.OS === 'ios' ? { x: 0, y: -(insets.top + 24) } : undefined}
+        contentContainerStyle={[
+          estilos.contenido,
+          { paddingTop: Platform.OS === 'ios' ? 0 : insets.top + 24, paddingBottom: espacioBarra + 16 },
+        ]}
         ListHeaderComponent={<Text style={estilos.titulo}>Historial</Text>}
         ListEmptyComponent={
           error ? (

@@ -7,7 +7,7 @@ import { createJSONStorage, persist, type StateStorage } from 'zustand/middlewar
 import { almacenamientoLocal } from '../data/local';
 import type { Nube } from '../data/nube';
 import { alternarFavorito, esFavorita } from '../domain/favoritos';
-import { esDuplicado, validarNota, type CalculoGuardado, type Favorito } from '../domain/historial';
+import { buscarDuplicado, validarNota, type CalculoGuardado, type Favorito } from '../domain/historial';
 
 export type EstadoAlmacen = {
   calculos: CalculoGuardado[];
@@ -41,7 +41,14 @@ export function crearAlmacen(storage: StateStorage, nube?: Nube) {
         calculos: [],
         favoritos: [],
         guardarCalculo: (calculo) => {
-          if (esDuplicado(calculo, get().calculos)) return 'duplicado';
+          const repetido = buscarDuplicado(calculo, get().calculos);
+          if (repetido) {
+            // Mismo cálculo otra vez: no se duplica, pero sube al inicio del historial.
+            const subido = { ...repetido, fecha: Math.max(calculo.fecha, repetido.fecha) };
+            set((s) => ({ calculos: s.calculos.map((c) => (c.id === repetido.id ? subido : c)) }));
+            if (subido.usuarioId) intentar(nube?.guardarCalculo(subido.usuarioId, subido));
+            return 'duplicado';
+          }
           set((s) => ({ calculos: [...s.calculos, calculo] }));
           if (calculo.usuarioId) intentar(nube?.guardarCalculo(calculo.usuarioId, calculo));
           return 'guardado';
