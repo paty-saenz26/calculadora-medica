@@ -10,6 +10,8 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
+import { useSesion } from '../state/instancias';
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -27,9 +29,16 @@ export default function RootLayout() {
     }
   }, [fuentesListas]);
 
+  // Firebase avisa si hay una sesión guardada y cada vez que cambia.
+  useEffect(() => useSesion.getState().iniciar(), []);
+
   if (!fuentesListas) {
     return null;
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="acceso" options={{ presentation: 'modal' }} />
+    </Stack>
+  );
 }

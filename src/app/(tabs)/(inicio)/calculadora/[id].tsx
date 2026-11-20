@@ -2,16 +2,20 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BlurView } from 'expo-blur';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
+import { construirCalculo, nuevoId } from '../../../../domain/historial';
 import { evaluar } from '../../../../domain/motor';
 import type { Calculadora } from '../../../../domain/tipos';
 import { cambiarUnidad, type OrigenConversion } from '../../../../domain/unidades';
+import { useEsFavorita, useUid } from '../../../../state/hooks';
+import { useAlmacen, useSesion } from '../../../../state/instancias';
 import { useEspacioBarra } from '../../../../ui/barraPestanas';
 import { BarraResultado } from '../../../../ui/componentes/BarraResultado';
+import { BotonFavorito } from '../../../../ui/componentes/BotonFavorito';
 import { CampoNumeroUI } from '../../../../ui/componentes/CampoNumeroUI';
 import { CampoOpcionUI } from '../../../../ui/componentes/CampoOpcionUI';
 import { CampoSiNoUI } from '../../../../ui/componentes/CampoSiNoUI';
@@ -60,6 +64,28 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
     [calculadora, valores, unidades],
   );
 
+  // F05: al salir de la calculadora se guarda el cálculo si hay resultado válido (y no es repetido).
+  const ultimo = useRef({ valores, unidades, resultado: estado.resultado });
+  ultimo.current = { valores, unidades, resultado: estado.resultado };
+  useEffect(
+    () => () => {
+      const { valores: v, unidades: u, resultado } = ultimo.current;
+      if (!resultado) return;
+      const ahora = Date.now();
+      const uidActual = useSesion.getState().usuario?.uid;
+      useAlmacen
+        .getState()
+        .guardarCalculo(
+          construirCalculo(calculadora, { valores: v, unidades: u }, resultado, nuevoId(ahora), ahora, uidActual),
+        );
+    },
+    [calculadora],
+  );
+
+  const uid = useUid();
+  const esFavorita = useEsFavorita(calculadora.id);
+  const alternarFavorito = useAlmacen((s) => s.alternarFavorito);
+
   const cambiarTexto = (campoId: string, texto: string) => {
     setValores((v) => ({ ...v, [campoId]: texto }));
     setOrigenes((o) => ({ ...o, [campoId]: undefined })); // al editar, ya no hay valor original que restaurar
@@ -101,6 +127,13 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
                 </View>
               </Cristal>
             </Pressable>
+            <View style={estilos.botonCircular}>
+              <Cristal radio={24}>
+                <View style={estilos.contenidoBoton}>
+                  <BotonFavorito activo={esFavorita} onPress={() => alternarFavorito(calculadora.id, uid)} />
+                </View>
+              </Cristal>
+            </View>
           </View>
 
           <View style={estilos.titulos}>
