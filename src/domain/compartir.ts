@@ -2,6 +2,9 @@
 import type { Calculadora } from './tipos';
 import { describirValores, type CalculoGuardado } from './historial';
 
+// btoa existe en Hermes (React Native) y en Node; se declara porque los tipos del proyecto no incluyen el DOM.
+declare const btoa: (datos: string) => string;
+
 export const NOMBRE_APP = 'Calculadora Médica';
 
 /**
@@ -36,11 +39,49 @@ export function urlCalculadora(calculadoraId: string): string {
   return `${URL_BASE}/c/${calculadoraId}/`;
 }
 
+export type CargaResultado = {
+  /** Resultado principal */
+  r: number;
+  u?: string;
+  /** Interpretación */
+  i: string;
+  /** Resultados secundarios [etiqueta, valor] */
+  d?: [string, string][];
+  /** Valores capturados [etiqueta, texto con unidad] */
+  v: [string, string][];
+};
+
+const aBase64Url = (texto: string): string =>
+  btoa(encodeURIComponent(texto).replace(/%([0-9A-F]{2})/g, (_, h: string) => String.fromCharCode(parseInt(h, 16))))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+
+/** Lo que se ve al abrir el enlace: resultado, interpretación y valores. NUNCA la nota ni datos del usuario (R4). */
+export function cargaResultado(calculadora: Calculadora, calculo: CalculoGuardado): CargaResultado {
+  const r = calculo.resultado;
+  return {
+    r: r.valor,
+    ...(r.unidad ? { u: r.unidad } : {}),
+    i: r.interpretacion,
+    ...(r.detalles?.length
+      ? { d: r.detalles.map((x) => [x.etiqueta, `${x.valor}${x.unidad ? ` ${x.unidad}` : ''}`] as [string, string]) }
+      : {}),
+    v: describirValores(calculadora, calculo).map((l) => [l.etiqueta, l.texto] as [string, string]),
+  };
+}
+
+/** Enlace a la página de la calculadora con el resultado dentro (la página lo lee del parámetro `d`). */
+export function urlConResultado(calculadora: Calculadora, calculo: CalculoGuardado): string {
+  return `${urlCalculadora(calculadora.id)}?d=${aBase64Url(JSON.stringify(cargaResultado(calculadora, calculo)))}`;
+}
+
 /**
  * Mensaje para compartir con tarjeta: una línea con el resultado y el enlace.
+ * Al abrir el enlace se ve la tarjeta con imagen (apps de mensajes) y el resultado completo (página).
  * Nunca incluye la nota ni datos del usuario (R4).
  */
 export function construirMensajeEnlace(calculadora: Calculadora, calculo: CalculoGuardado): string {
   const r = calculo.resultado;
-  return `${calculadora.nombre}: ${r.valor}${r.unidad ? ` ${r.unidad}` : ''}\n${urlCalculadora(calculadora.id)}`;
+  return `${calculadora.nombre}: ${r.valor}${r.unidad ? ` ${r.unidad}` : ''}\n${urlConResultado(calculadora, calculo)}`;
 }

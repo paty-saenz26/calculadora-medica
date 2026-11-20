@@ -1,7 +1,16 @@
 import { obtenerCalculadora } from '../calculadoras/catalogo';
-import { construirMensajeEnlace, construirTextoCompartir, urlCalculadora, URL_BASE } from '../compartir';
+import {
+  cargaResultado,
+  construirMensajeEnlace,
+  construirTextoCompartir,
+  urlCalculadora,
+  urlConResultado,
+  URL_BASE,
+} from '../compartir';
 import { construirCalculo } from '../historial';
 import { evaluar } from '../motor';
+
+declare const Buffer: { from: (d: string, e: string) => { toString: (e: string) => string } };
 
 const pam = obtenerCalculadora('pam')!;
 
@@ -57,12 +66,46 @@ describe('F06 compartir con tarjeta (enlace)', () => {
   it('el mensaje lleva el resultado y el enlace, sin la nota', () => {
     const m = construirMensajeEnlace(pam, calculo('paciente Juan'));
     expect(m).toContain('93');
-    expect(m).toContain(urlCalculadora('pam'));
+    expect(m).toContain(`${urlCalculadora('pam')}?d=`);
     expect(m).not.toContain('Juan');
     expect(m).not.toContain('uid-secreto');
   });
   it('todas las calculadoras del catálogo tienen enlace con su id', () => {
     const { catalogo } = require('../calculadoras/catalogo');
     for (const c of catalogo) expect(urlCalculadora(c.id)).toMatch(/\/c\/[a-z0-9-]+\/$/);
+  });
+});
+
+describe('F06 el enlace lleva el resultado', () => {
+  const decodificar = (url: string) => {
+    const d = new URL(url).searchParams.get('d')!;
+    const binario = Buffer.from(d.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8');
+    return JSON.parse(binario);
+  };
+
+  it('el parámetro se puede leer de vuelta y trae resultado, interpretación y valores con unidad', () => {
+    const carga = decodificar(urlConResultado(pam, calculo()));
+    expect(carga.r).toBe(93);
+    expect(carga.u).toMatch(/mm ?Hg/);
+    expect(carga.i).toContain(evaluar(pam, { valores: { pas: '120', pad: '80' } }).resultado!.interpretacion);
+    expect(carga.v).toHaveLength(2);
+    expect(carga.v[0][1]).toMatch(/^120 /);
+  });
+
+  it('conserva acentos y símbolos', () => {
+    const { catalogo } = require('../calculadoras/catalogo');
+    const c = catalogo.find((x: { id: string }) => x.id === 'cha2ds2-vasc');
+    const entradas = { valores: {} };
+    const r = evaluar(c, entradas);
+    const guardado = { ...calculo(), calculadoraId: c.id, resultado: { valor: 3, unidad: 'de 9', interpretacion: 'Riesgo alto: años ≥ 65 ✓' } };
+    expect(r.resultado).toBeUndefined();
+    expect(decodificar(urlConResultado(c, guardado)).i).toBe('Riesgo alto: años ≥ 65 ✓');
+  });
+
+  it('la carga nunca incluye la nota ni el usuario', () => {
+    const json = JSON.stringify(cargaResultado(pam, calculo('paciente Juan')));
+    expect(json).not.toContain('Juan');
+    expect(json).not.toContain('uid-secreto');
+    expect(urlConResultado(pam, calculo('paciente Juan'))).not.toContain('Juan');
   });
 });

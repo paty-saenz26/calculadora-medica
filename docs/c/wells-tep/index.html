@@ -32,13 +32,36 @@ p{font-size:18px;line-height:1.55;margin-bottom:20px}
 .sub{font-size:15px;color:#355A41;text-align:center}
 .fuente{font-size:14px;line-height:1.5;color:#355A41;border-top:1px solid #DCE8D8;padding-top:18px;margin-top:30px}
 .aviso{font-size:14px;color:#355A41;margin-top:14px}
+#res{background:#fff;border:1px solid #DCE8D8;border-radius:24px;padding:22px;margin:0 0 22px;box-shadow:0 8px 24px rgba(40,76,59,.10)}
+#res[hidden]{display:none}
+.et2{font-size:13px;letter-spacing:2px;font-weight:600;color:#507858;margin-bottom:6px}
+.val{font-size:64px;font-weight:400;line-height:1.05} .uni{font-size:20px;color:#355A41;margin-left:8px}
+#res p{font-size:17px;margin:12px 0 0}
+.fila{display:flex;justify-content:space-between;gap:14px;font-size:16px;padding:8px 0;border-top:1px solid #DCE8D8}
+.fila b{text-align:right;font-weight:600}
+#vals{margin-top:16px}
 </style></head><body>
 <header><div class="w"><div class="marca"><div class="logo">+</div>Calculadora Médica</div>
 <div class="et">HERRAMIENTA CLÍNICA</div><h1>Wells para embolia pulmonar</h1></div></header>
 <main><div class="w">
 <div class="chips"><span class=chip>Neumología</span><span class=chip>Urgencias</span></div>
+<section id="res" hidden><div class="et2">RESULTADO</div><div><span class="val" id="r"></span><span class="uni" id="u"></span></div><div id="dd"></div><p id="i"></p><div id="vals"></div></section>
 <p>Probabilidad clínica de embolia pulmonar (TEP).</p>
 <p class="sub">Calculadora disponible en la app Calculadora Médica.</p>
 <p class="fuente"><strong>Fuente:</strong> Wells PS, et al. Derivation of a simple clinical model to categorize patients probability of pulmonary embolism. Thromb Haemost 2000;83:416-20. Wells PS, et al. Ann Intern Med 1998;129:997-1005.</p>
 <p class="aviso">Resultado de apoyo a la decisión clínica; no sustituye el criterio médico.</p>
-</div></main></body></html>
+</div></main>
+<script>
+(function(){try{
+var d=new URLSearchParams(location.search).get('d'); if(!d) return;
+var b=atob(d.replace(/-/g,'+').replace(/_/g,'/'));
+var c=JSON.parse(decodeURIComponent(b.split('').map(function(x){return '%'+x.charCodeAt(0).toString(16).padStart(2,'0')}).join('')));
+if(typeof c.r!=='number') return;
+document.getElementById('r').textContent=c.r;
+document.getElementById('u').textContent=c.u||'';
+document.getElementById('i').textContent=String(c.i||'');
+function filas(id,arr,tit){var el=document.getElementById(id);(arr||[]).slice(0,30).forEach(function(p){var f=document.createElement('div');f.className='fila';var a=document.createElement('span');a.textContent=String(p[0]);var z=document.createElement('b');z.textContent=String(p[1]);f.appendChild(a);f.appendChild(z);el.appendChild(f);});}
+filas('dd',c.d); filas('vals',c.v);
+document.getElementById('res').hidden=false;
+}catch(e){}})();
+</script></body></html>
