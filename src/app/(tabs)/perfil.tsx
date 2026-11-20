@@ -1,11 +1,11 @@
 // Perfil (F07): modo invitado o con cuenta, cerrar sesión y aviso de apoyo clínico.
 import { useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSesion } from '../../state/instancias';
 import { useEspacioBarra } from '../../ui/barraPestanas';
 import { Cristal } from '../../ui/componentes/Cristal';
+import { Encabezado } from '../../ui/componentes/Encabezado';
 import { Fondo } from '../../ui/componentes/Fondo';
 import { colores, fuentes } from '../../ui/tema';
 
@@ -13,7 +13,6 @@ const VERSION = '1.0.0';
 
 export default function Perfil() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const espacioBarra = useEspacioBarra();
   const usuario = useSesion((s) => s.usuario);
   const cerrar = useSesion((s) => s.cerrar);
@@ -33,9 +32,8 @@ export default function Perfil() {
 
   return (
     <Fondo>
-      <ScrollView contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 24, paddingBottom: espacioBarra + 16 }]}>
-        <Text style={estilos.titulo}>Perfil</Text>
-
+      <Encabezado titulo="Perfil" />
+      <ScrollView style={estilos.flex} contentContainerStyle={[estilos.contenido, { paddingTop: 16, paddingBottom: espacioBarra + 16 }]}>
         <Cristal>
           <View style={estilos.bloque}>
             {usuario ? (
@@ -85,8 +83,8 @@ export default function Perfil() {
 }
 
 const estilos = StyleSheet.create({
+  flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 16 },
-  titulo: { fontFamily: fuentes.negrita, fontSize: 32, color: colores.textoPrincipal },
   bloque: { padding: 20, gap: 10 },
   etiqueta: { fontFamily: fuentes.media, fontSize: 16, color: colores.textoSobreCristal },
   correo: { fontFamily: fuentes.negrita, fontSize: 22, color: colores.textoPrincipal },

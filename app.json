@@ -34,7 +34,8 @@
         }
       ],
       "expo-font",
-      "expo-sharing"
+      "expo-sharing",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -1,15 +1,14 @@
 // Detalle de un cálculo guardado (F05): valores, resultado, nota y eliminar.
-import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
 import { describirValores, formatearFecha } from '../../../../domain/historial';
 import { useAlmacen } from '../../../../state/instancias';
 import { useEspacioBarra } from '../../../../ui/barraPestanas';
 import { Cristal } from '../../../../ui/componentes/Cristal';
+import { Encabezado } from '../../../../ui/componentes/Encabezado';
 import { Fondo } from '../../../../ui/componentes/Fondo';
 import { ModalCompartir } from '../../../../ui/componentes/ModalCompartir';
 import { ModalNota } from '../../../../ui/componentes/ModalNota';
@@ -18,7 +17,6 @@ import { colores, fuentes } from '../../../../ui/tema';
 export default function DetalleCalculo() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const espacioBarra = useEspacioBarra();
   const calculo = useAlmacen((s) => s.calculos.find((c) => c.id === id));
   const editarNota = useAlmacen((s) => s.editarNota);
@@ -26,21 +24,11 @@ export default function DetalleCalculo() {
   const [editando, setEditando] = useState(false);
   const [compartiendo, setCompartiendo] = useState(false);
 
-  const volver = (
-    <Pressable accessibilityRole="button" accessibilityLabel="Volver" onPress={() => router.back()} style={estilos.botonCircular}>
-      <Cristal radio={24}>
-        <View style={estilos.contenidoBoton}>
-          <Ionicons name="chevron-back" size={24} color={colores.textoPrincipal} />
-        </View>
-      </Cristal>
-    </Pressable>
-  );
-
   if (!calculo) {
     return (
       <Fondo>
-        <View style={[estilos.contenido, { paddingTop: insets.top + 12 }]}>
-          {volver}
+        <Encabezado titulo="Detalle" atras />
+        <View style={[estilos.contenido, { paddingTop: 16 }]}>
           <Text style={estilos.vacio}>Este cálculo ya no existe.</Text>
         </View>
       </Fondo>
@@ -65,8 +53,8 @@ export default function DetalleCalculo() {
 
   return (
     <Fondo>
-      <ScrollView contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 12, paddingBottom: espacioBarra + 16 }]}>
-        {volver}
+      <Encabezado titulo="Detalle" atras />
+      <ScrollView style={estilos.flex} contentContainerStyle={[estilos.contenido, { paddingTop: 16, paddingBottom: espacioBarra + 16 }]}>
         <View style={estilos.titulos}>
           <Text style={estilos.nombre}>{calculadora?.nombre ?? calculo.calculadoraId}</Text>
           <Text style={estilos.fecha}>{formatearFecha(calculo.fecha)}</Text>
@@ -146,6 +134,7 @@ export default function DetalleCalculo() {
 }
 
 const estilos = StyleSheet.create({
+  flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 14 },
   botonCircular: { width: 48, height: 48 },
   contenidoBoton: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },

@@ -1,10 +1,8 @@
 // Pantalla de calculadora con resultado en vivo (F03). Dibuja el formulario a partir de la definición.
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { BlurView } from 'expo-blur';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
 import { construirCalculo, nuevoId } from '../../../../domain/historial';
@@ -21,6 +19,7 @@ import { CampoOpcionUI } from '../../../../ui/componentes/CampoOpcionUI';
 import { CampoSiNoUI } from '../../../../ui/componentes/CampoSiNoUI';
 import { ModalCompartir } from '../../../../ui/componentes/ModalCompartir';
 import { Cristal } from '../../../../ui/componentes/Cristal';
+import { Encabezado } from '../../../../ui/componentes/Encabezado';
 import { Fondo } from '../../../../ui/componentes/Fondo';
 import { colores, fuentes } from '../../../../ui/tema';
 
@@ -30,6 +29,7 @@ export default function PantallaCalculadora() {
   if (!calculadora) {
     return (
       <Fondo>
+        <Encabezado titulo="Calculadora" atras />
         <Text style={estilos.noEncontrada}>Calculadora no encontrada</Text>
       </Fondo>
     );
@@ -38,8 +38,6 @@ export default function PantallaCalculadora() {
 }
 
 function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
   const espacioBarra = useEspacioBarra();
 
   const [valores, setValores] = useState<Record<string, string | boolean | undefined>>({});
@@ -111,24 +109,13 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
 
   return (
     <Fondo>
+      <Encabezado titulo="Calculadora" atras />
       <KeyboardAvoidingView style={estilos.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
-          contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 12 }]}
+          contentContainerStyle={[estilos.contenido, { paddingTop: 16 }]}
           keyboardShouldPersistTaps="handled"
         >
           <View style={estilos.encabezado}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Volver"
-              onPress={() => router.back()}
-              style={estilos.botonCircular}
-            >
-              <Cristal radio={24}>
-                <View style={estilos.contenidoBoton}>
-                  <Ionicons name="chevron-back" size={24} color={colores.textoPrincipal} />
-                </View>
-              </Cristal>
-            </Pressable>
             <View style={estilos.grupoDerecha}>
               {estado.resultado ? (
                 <Pressable
@@ -227,13 +214,6 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
           onCerrar={() => setCompartiendo(false)}
         />
       ) : null}
-      {/* Difuminado bajo la barra de estado: el contenido ya no se encima con la hora. */}
-      <BlurView
-        pointerEvents="none"
-        intensity={40}
-        tint="light"
-        style={[estilos.barraEstado, { height: insets.top }]}
-      />
     </Fondo>
   );
 }
@@ -242,7 +222,7 @@ const estilos = StyleSheet.create({
   flex: { flex: 1 },
   noEncontrada: { marginTop: 120, textAlign: 'center', fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   contenido: { paddingHorizontal: 16, paddingBottom: 24, gap: 14 },
-  encabezado: { flexDirection: 'row', justifyContent: 'space-between' },
+  encabezado: { flexDirection: 'row', justifyContent: 'flex-end' },
   grupoDerecha: { flexDirection: 'row', gap: 10 },
   botonCircular: { width: 48, height: 48 },
   contenidoBoton: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
@@ -261,5 +241,4 @@ const estilos = StyleSheet.create({
   campos: { gap: 14 },
   fuente: { fontFamily: fuentes.normal, fontSize: 18, lineHeight: 26, color: colores.textoPrincipal, marginTop: 6 },
   barra: { paddingHorizontal: 16, paddingTop: 8 },
-  barraEstado: { position: 'absolute', top: 0, left: 0, right: 0 },
 });

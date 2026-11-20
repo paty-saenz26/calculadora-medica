@@ -1,0 +1,42 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
+
+import { colores, fuentes } from '../tema';
+
+export const COLOR_LOGO = { circulo: colores.chip, letras: colores.textoPrincipal } as const;
+
+/** Logo de la app: círculo verde claro con "MS" + estetoscopio, "Med" y "Calc" (medidas relativas al diámetro). */
+export function LogoMS({ diametro = 72 }: { diametro?: number }) {
+  const d = diametro;
+  return (
+    <View
+      accessible
+      accessibilityLabel="MS Med Calc"
+      style={[estilos.circulo, { width: d, height: d, borderRadius: d / 2 }]}
+    >
+      <View style={estilos.fila}>
+        <Text allowFontScaling={false} style={[estilos.texto, { fontSize: d * 0.27 }]}>
+          MS
+        </Text>
+        <MaterialCommunityIcons
+          name="stethoscope"
+          size={d * 0.2}
+          color={COLOR_LOGO.letras}
+          style={{ marginLeft: d * 0.02, marginTop: -d * 0.07 }}
+        />
+      </View>
+      <Text allowFontScaling={false} style={[estilos.texto, { fontSize: d * 0.19, marginTop: d * 0.03 }]}>
+        Med
+      </Text>
+      <Text allowFontScaling={false} style={[estilos.texto, { fontSize: d * 0.19, marginTop: d * 0.01 }]}>
+        Calc
+      </Text>
+    </View>
+  );
+}
+
+const estilos = StyleSheet.create({
+  circulo: { backgroundColor: COLOR_LOGO.circulo, alignItems: 'center', justifyContent: 'center' },
+  fila: { flexDirection: 'row', alignItems: 'center' },
+  texto: { fontFamily: fuentes.negrita, color: COLOR_LOGO.letras, includeFontPadding: false },
+});

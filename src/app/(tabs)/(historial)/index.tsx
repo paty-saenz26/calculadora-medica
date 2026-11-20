@@ -2,8 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, FlatList, Platform, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Alert, FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 
 import { obtenerCalculadora } from '../../../domain/calculadoras/catalogo';
 import { formatearFecha, ordenarPorFecha, paginar, type CalculoGuardado } from '../../../domain/historial';
@@ -12,12 +11,12 @@ import { useAlmacen } from '../../../state/instancias';
 import { useEspacioBarra } from '../../../ui/barraPestanas';
 import { Cristal } from '../../../ui/componentes/Cristal';
 import { FilaDeslizable } from '../../../ui/componentes/FilaDeslizable';
+import { Encabezado } from '../../../ui/componentes/Encabezado';
 import { Fondo } from '../../../ui/componentes/Fondo';
 import { colores, fuentes } from '../../../ui/tema';
 
 export default function Historial() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const espacioBarra = useEspacioBarra();
   const calculos = useMisCalculos();
   const [pagina, setPagina] = useState(1);
@@ -118,6 +117,7 @@ export default function Historial() {
 
   return (
     <Fondo>
+      <Encabezado titulo="Historial" />
       <FlatList
         data={items}
         extraData={[seleccionando, elegidos]}
@@ -127,17 +127,10 @@ export default function Historial() {
         onEndReachedThreshold={0.4}
         onEndReached={() => hayMas && setPagina((p) => p + 1)}
         refreshControl={<RefreshControl refreshing={actualizando} onRefresh={actualizar} tintColor={colores.primario} />}
-        // iOS: el margen superior va como inset para que el circulito de recarga salga debajo de la barra de estado.
-        contentInset={Platform.OS === 'ios' ? { top: insets.top + 24 } : undefined}
-        contentOffset={Platform.OS === 'ios' ? { x: 0, y: -(insets.top + 24) } : undefined}
-        contentContainerStyle={[
-          estilos.contenido,
-          { paddingTop: Platform.OS === 'ios' ? 0 : insets.top + 24, paddingBottom: espacioBarra + 16 },
-        ]}
+        contentContainerStyle={[estilos.contenido, { paddingTop: 16, paddingBottom: espacioBarra + 16 }]}
         ListHeaderComponent={
           <View style={estilos.encabezado}>
             <View style={estilos.tituloFila}>
-              <Text style={estilos.titulo}>Historial</Text>
               {ordenados.length > 0 ? (
                 <Pressable
                   accessibilityRole="button"
@@ -194,8 +187,7 @@ export default function Historial() {
 const estilos = StyleSheet.create({
   contenido: { paddingHorizontal: 16, flexGrow: 1 },
   encabezado: { marginBottom: 16, gap: 12 },
-  tituloFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  titulo: { fontFamily: fuentes.negrita, fontSize: 32, color: colores.textoPrincipal },
+  tituloFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' },
   accionTexto: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.primario },
   acciones: { flexDirection: 'row', gap: 8 },
   chip: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, backgroundColor: colores.chip },

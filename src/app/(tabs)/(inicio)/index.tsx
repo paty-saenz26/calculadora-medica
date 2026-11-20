@@ -2,7 +2,6 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { catalogo } from '../../../domain/calculadoras/catalogo';
 import { buscarCalculadoras } from '../../../domain/busqueda';
@@ -18,6 +17,7 @@ import { useMisCalculos, useUid } from '../../../state/hooks';
 import { useAlmacen } from '../../../state/instancias';
 import { useEspacioBarra } from '../../../ui/barraPestanas';
 import { Cristal } from '../../../ui/componentes/Cristal';
+import { Encabezado } from '../../../ui/componentes/Encabezado';
 import { FilaCalculadora } from '../../../ui/componentes/FilaCalculadora';
 import { Fondo } from '../../../ui/componentes/Fondo';
 import { iconoEspecialidad } from '../../../ui/iconosEspecialidad';
@@ -33,7 +33,6 @@ const PESTANAS: { id: Pestana; titulo: string }[] = [
 ];
 
 export default function Inicio() {
-  const insets = useSafeAreaInsets();
   const espacioBarra = useEspacioBarra();
   const uid = useUid();
   const calculos = useMisCalculos();
@@ -126,12 +125,12 @@ export default function Inicio() {
 
   return (
     <Fondo>
+      <Encabezado titulo="Calculadoras" />
       <ScrollView
+        style={estilos.flex}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[estilos.contenido, { paddingTop: insets.top + 24, paddingBottom: espacioBarra + 16 }]}
+        contentContainerStyle={[estilos.contenido, { paddingTop: 16, paddingBottom: espacioBarra + 16 }]}
       >
-        <Text style={estilos.titulo}>Calculadoras</Text>
-
         <Cristal radio={999}>
           <View style={estilos.busqueda}>
             <Ionicons name="search" size={22} color={colores.textoSobreCristal} />
@@ -182,8 +181,8 @@ export default function Inicio() {
 }
 
 const estilos = StyleSheet.create({
+  flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 14 },
-  titulo: { fontFamily: fuentes.negrita, fontSize: 32, color: colores.textoPrincipal },
   busqueda: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 18, minHeight: 52 },
   entrada: { flex: 1, fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal, paddingVertical: 12 },
   pestanas: { gap: 8 },
