@@ -1,17 +1,83 @@
 # Calculadora Médica
 
-App móvil en español con calculadoras y escalas clínicas para agilizar la práctica médica en entorno hospitalario. Proyecto integral de la materia Aplicaciones Móviles (UABC, FIAD).
+App móvil de calculadoras y escalas clínicas en español, inspirada en MDCalc. Hecha con Expo (React Native) y TypeScript para la materia de Aplicaciones Móviles, UABC FIAD, grupo 972.
 
-**Estado:** en especificación (desarrollo guiado por specs, SDD).
+> Los resultados son apoyo a la decisión clínica y no sustituyen el criterio médico. Las calculadoras están **pendientes de validación por un médico**; cada una muestra su fuente bibliográfica.
 
-## Cómo está organizado el proyecto
+## Qué hace
 
-- `specs/constitution.md`: principios no negociables del proyecto.
-- `specs/00-project.md`: problema, usuario, MVP, alcance y decisiones tomadas.
-- `specs/02-data-model.md`: entidades y reglas de datos.
-- `specs/features/`: una spec por funcionalidad (F01, F02, ...).
-- `specs/calculators/`: una spec por calculadora (C01, C02, ...), con fuente, rangos y casos de prueba.
+- **20 calculadoras y escalas** (PAM, CHA₂DS₂-VASc, Cockcroft-Gault, IMC y superficie corporal, FIB-4, CKD-EPI 2021, Wells TEP, NIHSS, Child-Pugh, entre otras) con resultado en vivo, validación de rangos y cambio de unidades.
+- **Inicio** con búsqueda en vivo (ignora acentos y mayúsculas, encuentra por siglas) y pestañas Especialidades, Recientes, Favoritas y Todas.
+- **Favoritos** con estrella.
+- **Historial** de cálculos con paginación (20 por página), notas de hasta 200 caracteres y eliminación con confirmación. Se guarda al salir de la calculadora y no repite cálculos idénticos.
+- **Cuenta** con Firebase Authentication (registro, inicio de sesión, recuperar contraseña, sesión persistente) y sincronización del historial y favoritos con Firestore. Sin cuenta se usa como invitado, todo en el teléfono.
+- **Compartir** el resultado como tarjeta con enlace (se ve con imagen en WhatsApp y otras apps) o como texto. La nota nunca se comparte.
 
-## Stack previsto
+## Cómo correrla
 
-Expo, React Native y TypeScript. Backend y estado global por decidir (ver pendientes en `specs/00-project.md`).
+Requisitos: Node 20 o superior y la app Expo Go en el teléfono.
+
+```bash
+npm install --legacy-peer-deps
+```
+
+Crea un archivo `.env` en la raíz con la configuración de tu proyecto de Firebase (no se sube a GitHub):
+
+```
+EXPO_PUBLIC_FIREBASE_API_KEY=
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+EXPO_PUBLIC_FIREBASE_APP_ID=
+```
+
+En Firebase hay que activar Authentication (correo y contraseña) y Firestore, con las reglas de `firestore.rules`.
+
+```bash
+npx expo start        # escanea el QR con Expo Go
+npx expo start --tunnel   # si el teléfono no alcanza la PC
+npm test              # pruebas unitarias y de integración
+npx tsc --noEmit      # revisión de tipos
+```
+
+## Arquitectura
+
+Aplicación monolítica (un solo proyecto Expo) en capas. Firebase es un servicio externo (BaaS). Calcular nunca necesita internet ni cuenta.
+
+| Capa | Carpeta | Qué hace |
+|---|---|---|
+| Presentación | `src/app`, `src/ui` | Pantallas (expo-router) y componentes visuales. No contiene fórmulas. |
+| Estado | `src/state` | Zustand: historial, favoritos y sesión. |
+| Datos | `src/data` | AsyncStorage y Firebase (Auth y Firestore). |
+| Dominio | `src/domain` | TypeScript puro: motor de evaluación, unidades, calculadoras, búsqueda, historial, compartir. No depende de React, Expo ni Firebase. |
+
+Cada calculadora es una definición declarativa (campos, reglas, fórmula, fuente) registrada en `src/domain/calculadoras/catalogo.ts`. Agregar una calculadora es un archivo nuevo y una línea en el catálogo; la pantalla genérica dibuja el formulario.
+
+Navegación: Tabs (Inicio, Historial, Perfil) + Stack por pestaña (calculadora, detalle de cálculo) + modal (acceso, compartir, notas).
+
+## Firebase
+
+Authentication: registrar usuario, iniciar sesión, cerrar sesión, enviar correo de recuperación.
+Firestore: guardar, editar (nota) y eliminar cálculo; guardar y quitar favorito; descargar historial y favoritos de la cuenta; publicar un resultado compartido.
+
+Estructura: `usuarios/{uid}/calculos/{id}`, `usuarios/{uid}/favoritos/{calculadoraId}` (solo su dueño las lee y escribe) y `compartidos/{id}` (lectura por identificador, creación acotada).
+
+## Páginas de las calculadoras (carpeta `docs/`)
+
+Sitio estático publicado con GitHub Pages: una página por calculadora con su imagen de tarjeta. Es lo que muestran WhatsApp y otras apps al compartir un resultado. La página muestra el resultado compartido leyéndolo de Firestore.
+
+## Pruebas
+
+Más de 370 pruebas con Jest: casos numéricos de cada calculadora, motor y unidades, búsqueda, historial, favoritos, validaciones de cuenta, estado (con Firestore y Auth simulados) y 6 pruebas de integración que recorren flujos completos (calcular y guardar, registro y sincronización, credenciales incorrectas, cierre de sesión, búsqueda y favoritos, paginación).
+
+## Documentación del proyecto
+
+La especificación vive en `specs/` (Spec-Driven Development): constitución, plan, modelo de datos, navegación, una especificación por funcionalidad y una por calculadora.
+
+## Pendientes conocidos
+
+- Validación médica de las fórmulas y textos.
+- Cuatro calculadoras complejas (Glasgow-Blatchford, GRACE, ASCVD 2013, Duke-ISCVID 2023).
+- Pantalla de bienvenida de la primera vez y cola de cambios pendientes sin conexión.
+- Abrir la app directamente desde el enlace compartido (requiere un build nativo).

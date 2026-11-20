@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /usuarios/{uid}/{documento=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    match /compartidos/{id} {
+      allow get: if true;
+      allow list, update, delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['datos', 'creado'])
+                    && request.resource.data.datos is string
+                    && request.resource.data.datos.size() < 4000;
+    }
+  }
+}
