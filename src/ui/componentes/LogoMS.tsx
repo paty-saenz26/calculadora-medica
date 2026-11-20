@@ -5,14 +5,14 @@ import { colores, fuentes } from '../tema';
 
 export const COLOR_LOGO = { circulo: colores.chip, letras: colores.textoPrincipal } as const;
 
-/** Logo de la app: círculo verde claro con "MS" + estetoscopio, "Med" y "Calc" (medidas relativas al diámetro). */
-export function LogoMS({ diametro = 72 }: { diametro?: number }) {
+/** Logo de la app: cuadrado redondeado verde claro con "MS" + estetoscopio, "Med" y "Calc" (medidas relativas al diámetro). */
+export function LogoMS({ diametro = 56 }: { diametro?: number }) {
   const d = diametro;
   return (
     <View
       accessible
       accessibilityLabel="MS Med Calc"
-      style={[estilos.circulo, { width: d, height: d, borderRadius: d / 2 }]}
+      style={[estilos.circulo, { width: d, height: d, borderRadius: d * 0.26 }]}
     >
       <View style={estilos.fila}>
         <Text allowFontScaling={false} style={[estilos.texto, { fontSize: d * 0.27 }]}>

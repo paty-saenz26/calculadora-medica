@@ -18,7 +18,7 @@ export function Encabezado({ titulo, atras }: Props) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   return (
-    <View style={[estilos.barra, { paddingTop: insets.top + 12 }]}>
+    <View style={[estilos.barra, { paddingTop: insets.top + 8 }]}>
       <StatusBar style="light" />
       {atras ? (
         <Pressable
@@ -45,9 +45,9 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     gap: 14,
     paddingHorizontal: 16,
-    paddingBottom: 14,
+    paddingBottom: 10,
     backgroundColor: colores.primario,
   },
   atras: { marginRight: -6 },
-  titulo: { flex: 1, fontFamily: fuentes.negrita, fontSize: 26, color: colores.textoSobrePrimario },
+  titulo: { flex: 1, fontFamily: fuentes.negrita, fontSize: 24, color: colores.textoSobrePrimario },
 });
