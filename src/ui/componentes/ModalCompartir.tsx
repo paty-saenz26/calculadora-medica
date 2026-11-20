@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 
-import { construirMensajeEnlace, construirTextoCompartir } from '../../domain/compartir';
+import { publicarResultado } from '../../data/compartidos';
+import {
+  cargaResultado,
+  construirMensajeEnlace,
+  construirTextoCompartir,
+  generarIdCorto,
+  urlCorta,
+} from '../../domain/compartir';
 import type { CalculoGuardado } from '../../domain/historial';
 import type { Calculadora } from '../../domain/tipos';
 import { colores, fuentes } from '../tema';
@@ -14,7 +21,8 @@ type Props = { visible: boolean; calculadora: Calculadora; calculo: CalculoGuard
  */
 export function ModalCompartir({ visible, calculadora, calculo, onCerrar }: Props) {
   const [error, setError] = useState<string>();
-  const mensaje = construirMensajeEnlace(calculadora, calculo);
+  const [ocupado, setOcupado] = useState(false);
+  const mensaje = construirMensajeEnlace(calculadora, calculo, urlCorta(calculadora.id, 'xxxxxxxx'));
 
   const compartir = async (texto: string) => {
     setError(undefined);
@@ -23,6 +31,15 @@ export function ModalCompartir({ visible, calculadora, calculo, onCerrar }: Prop
     } catch {
       setError('No pudimos abrir el menú de compartir. Intenta de nuevo');
     }
+  };
+
+  /** Guarda el resultado y comparte un enlace corto; sin conexión comparte el enlace largo. */
+  const compartirConTarjeta = async () => {
+    setOcupado(true);
+    const id = generarIdCorto();
+    const guardado = await publicarResultado(id, cargaResultado(calculadora, calculo));
+    setOcupado(false);
+    await compartir(construirMensajeEnlace(calculadora, calculo, guardado ? urlCorta(calculadora.id, id) : undefined));
   };
 
   return (
@@ -51,8 +68,13 @@ export function ModalCompartir({ visible, calculadora, calculo, onCerrar }: Prop
           <Text style={estilos.aviso}>No incluye notas ni datos personales.</Text>
           {error ? <Text style={estilos.error}>{error}</Text> : null}
 
-          <Pressable accessibilityRole="button" onPress={() => compartir(mensaje)} style={estilos.primario}>
-            <Text style={estilos.textoPrimario}>Compartir con tarjeta</Text>
+          <Pressable
+            accessibilityRole="button"
+            disabled={ocupado}
+            onPress={compartirConTarjeta}
+            style={[estilos.primario, ocupado && estilos.desactivado]}
+          >
+            <Text style={estilos.textoPrimario}>{ocupado ? 'Preparando…' : 'Compartir con tarjeta'}</Text>
           </Pressable>
           <View style={estilos.fila}>
             <Pressable
@@ -89,6 +111,7 @@ const estilos = StyleSheet.create({
   error: { fontFamily: fuentes.media, fontSize: 16, color: colores.error },
   primario: { paddingVertical: 15, borderRadius: 999, backgroundColor: colores.primario, alignItems: 'center' },
   textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoSobrePrimario },
+  desactivado: { opacity: 0.55 },
   fila: { flexDirection: 'row', gap: 10 },
   secundario: { flex: 1, paddingVertical: 13, borderRadius: 999, backgroundColor: colores.chip, alignItems: 'center' },
   textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 16, color: colores.textoPrincipal },

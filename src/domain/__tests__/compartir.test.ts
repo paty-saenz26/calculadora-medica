@@ -3,7 +3,9 @@ import {
   cargaResultado,
   construirMensajeEnlace,
   construirTextoCompartir,
+  generarIdCorto,
   urlCalculadora,
+  urlCorta,
   urlConResultado,
   URL_BASE,
 } from '../compartir';
@@ -107,5 +109,17 @@ describe('F06 el enlace lleva el resultado', () => {
     expect(json).not.toContain('Juan');
     expect(json).not.toContain('uid-secreto');
     expect(urlConResultado(pam, calculo('paciente Juan'))).not.toContain('Juan');
+  });
+});
+
+describe('F06 enlace corto', () => {
+  it('el identificador tiene 8 caracteres sin letras ambiguas', () => {
+    for (let i = 0; i < 50; i++) expect(generarIdCorto()).toMatch(/^[abcdefghijkmnpqrstuvwxyz23456789]{8}$/);
+  });
+  it('el mensaje con enlace corto es breve y no lleva datos ni nota', () => {
+    const m = construirMensajeEnlace(pam, calculo('paciente Juan'), urlCorta('pam', 'abcd2345'));
+    expect(m).toBe(`${pam.nombre}: 93 mm Hg\n${URL_BASE}/c/pam/?s=abcd2345`);
+    expect(m.length).toBeLessThan(120);
+    expect(m).not.toContain('Juan');
   });
 });

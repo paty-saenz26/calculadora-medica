@@ -76,12 +76,26 @@ export function urlConResultado(calculadora: Calculadora, calculo: CalculoGuarda
   return `${urlCalculadora(calculadora.id)}?d=${aBase64Url(JSON.stringify(cargaResultado(calculadora, calculo)))}`;
 }
 
+const ALFABETO = 'abcdefghijkmnpqrstuvwxyz23456789'; // sin letras que se confunden (l, o, 0, 1)
+
+/** Identificador corto para el enlace (8 caracteres). */
+export function generarIdCorto(aleatorio: () => number = Math.random): string {
+  let id = '';
+  for (let i = 0; i < 8; i++) id += ALFABETO[Math.floor(aleatorio() * ALFABETO.length)];
+  return id;
+}
+
+/** Enlace corto: la página busca el resultado guardado con ese identificador. */
+export function urlCorta(calculadoraId: string, idCorto: string): string {
+  return `${urlCalculadora(calculadoraId)}?s=${idCorto}`;
+}
+
 /**
  * Mensaje para compartir con tarjeta: una línea con el resultado y el enlace.
- * Al abrir el enlace se ve la tarjeta con imagen (apps de mensajes) y el resultado completo (página).
+ * Si no se da un enlace corto (por ejemplo sin conexión), se usa el enlace con el resultado dentro.
  * Nunca incluye la nota ni datos del usuario (R4).
  */
-export function construirMensajeEnlace(calculadora: Calculadora, calculo: CalculoGuardado): string {
+export function construirMensajeEnlace(calculadora: Calculadora, calculo: CalculoGuardado, enlace?: string): string {
   const r = calculo.resultado;
-  return `${calculadora.nombre}: ${r.valor}${r.unidad ? ` ${r.unidad}` : ''}\n${urlConResultado(calculadora, calculo)}`;
+  return `${calculadora.nombre}: ${r.valor}${r.unidad ? ` ${r.unidad}` : ''}\n${enlace ?? urlConResultado(calculadora, calculo)}`;
 }
