@@ -1,5 +1,5 @@
 import { obtenerCalculadora } from '../calculadoras/catalogo';
-import { construirTextoCompartir } from '../compartir';
+import { construirMensajeEnlace, construirTextoCompartir, urlCalculadora, URL_BASE } from '../compartir';
 import { construirCalculo } from '../historial';
 import { evaluar } from '../motor';
 
@@ -47,5 +47,22 @@ describe('F06 texto para compartir', () => {
     const r = evaluar(imc, entradas).resultado!;
     const t = construirTextoCompartir(imc, construirCalculo(imc, entradas, r, 'b', 1));
     for (const d of r.detalles ?? []) expect(t).toContain(d.etiqueta);
+  });
+});
+
+describe('F06 compartir con tarjeta (enlace)', () => {
+  it('el enlace apunta a la página de la calculadora', () => {
+    expect(urlCalculadora('pam')).toBe(`${URL_BASE}/c/pam/`);
+  });
+  it('el mensaje lleva el resultado y el enlace, sin la nota', () => {
+    const m = construirMensajeEnlace(pam, calculo('paciente Juan'));
+    expect(m).toContain('93');
+    expect(m).toContain(urlCalculadora('pam'));
+    expect(m).not.toContain('Juan');
+    expect(m).not.toContain('uid-secreto');
+  });
+  it('todas las calculadoras del catálogo tienen enlace con su id', () => {
+    const { catalogo } = require('../calculadoras/catalogo');
+    for (const c of catalogo) expect(urlCalculadora(c.id)).toMatch(/\/c\/[a-z0-9-]+\/$/);
   });
 });

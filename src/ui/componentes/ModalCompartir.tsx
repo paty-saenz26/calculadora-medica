@@ -1,16 +1,22 @@
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 
+import { construirMensajeEnlace, construirTextoCompartir } from '../../domain/compartir';
+import type { CalculoGuardado } from '../../domain/historial';
+import type { Calculadora } from '../../domain/tipos';
 import { colores, fuentes } from '../tema';
-import { Cristal } from './Cristal';
 
-type Props = { visible: boolean; texto: string; onCerrar: () => void };
+type Props = { visible: boolean; calculadora: Calculadora; calculo: CalculoGuardado; onCerrar: () => void };
 
-/** Modal de compartir (F06): vista previa del texto y menú de compartir del sistema. */
-export function ModalCompartir({ visible, texto, onCerrar }: Props) {
+/**
+ * Modal de compartir (F06): "Compartir con tarjeta" (principal) manda el resultado y el enlace de la calculadora,
+ * que las apps de mensajes muestran como tarjeta con imagen; "Compartir texto" manda el resumen completo.
+ */
+export function ModalCompartir({ visible, calculadora, calculo, onCerrar }: Props) {
   const [error, setError] = useState<string>();
+  const mensaje = construirMensajeEnlace(calculadora, calculo);
 
-  const compartir = async () => {
+  const compartir = async (texto: string) => {
     setError(undefined);
     try {
       await Share.share({ message: texto }); // cancelar el menú no es un error
@@ -22,27 +28,44 @@ export function ModalCompartir({ visible, texto, onCerrar }: Props) {
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCerrar}>
       <View style={estilos.fondo}>
-        <View style={estilos.tarjeta}>
-          <Cristal>
-            <View style={estilos.contenido}>
-              <Text style={estilos.titulo}>Compartir resultado</Text>
-              <ScrollView style={estilos.vista}>
-                <Text style={estilos.texto} selectable>
-                  {texto}
-                </Text>
-              </ScrollView>
-              <Text style={estilos.aviso}>No incluye notas ni datos personales.</Text>
-              {error ? <Text style={estilos.error}>{error}</Text> : null}
-              <View style={estilos.botones}>
-                <Pressable accessibilityRole="button" onPress={onCerrar} style={estilos.secundario}>
-                  <Text style={estilos.textoSecundario}>Cerrar</Text>
-                </Pressable>
-                <Pressable accessibilityRole="button" onPress={compartir} style={estilos.primario}>
-                  <Text style={estilos.textoPrimario}>Compartir texto</Text>
-                </Pressable>
-              </View>
+        <View style={estilos.panel}>
+          <Text style={estilos.titulo}>Compartir resultado</Text>
+
+          <View style={estilos.tarjeta}>
+            <View style={estilos.banda}>
+              <Text style={estilos.etiqueta}>HERRAMIENTA CLÍNICA</Text>
+              <Text style={estilos.nombre}>{calculadora.nombre}</Text>
             </View>
-          </Cristal>
+            <View style={estilos.cuerpo}>
+              <Text style={estilos.descripcion}>{calculadora.descripcion}</Text>
+              <Text style={estilos.dominio}>calculadora-medica</Text>
+            </View>
+          </View>
+
+          <ScrollView style={estilos.mensaje}>
+            <Text style={estilos.textoMensaje} selectable>
+              {mensaje}
+            </Text>
+          </ScrollView>
+
+          <Text style={estilos.aviso}>No incluye notas ni datos personales.</Text>
+          {error ? <Text style={estilos.error}>{error}</Text> : null}
+
+          <Pressable accessibilityRole="button" onPress={() => compartir(mensaje)} style={estilos.primario}>
+            <Text style={estilos.textoPrimario}>Compartir con tarjeta</Text>
+          </Pressable>
+          <View style={estilos.fila}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => compartir(construirTextoCompartir(calculadora, calculo))}
+              style={estilos.secundario}
+            >
+              <Text style={estilos.textoSecundario}>Compartir texto</Text>
+            </Pressable>
+            <Pressable accessibilityRole="button" onPress={onCerrar} style={estilos.secundario}>
+              <Text style={estilos.textoSecundario}>Cerrar</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>
@@ -50,17 +73,23 @@ export function ModalCompartir({ visible, texto, onCerrar }: Props) {
 }
 
 const estilos = StyleSheet.create({
-  fondo: { flex: 1, backgroundColor: 'rgba(40,76,59,0.35)', justifyContent: 'center', padding: 16 },
-  tarjeta: { backgroundColor: colores.fondoSuave2, borderRadius: 24 },
-  contenido: { padding: 20, gap: 10 },
-  titulo: { fontFamily: fuentes.negrita, fontSize: 24, color: colores.textoPrincipal },
-  vista: { maxHeight: 340, backgroundColor: colores.fondo, borderRadius: 16, padding: 14 },
-  texto: { fontFamily: fuentes.normal, fontSize: 17, lineHeight: 25, color: colores.textoPrincipal },
-  aviso: { fontFamily: fuentes.normal, fontSize: 15, color: colores.textoSobreCristal },
+  fondo: { flex: 1, backgroundColor: 'rgba(40,76,59,0.55)', justifyContent: 'center', padding: 16 },
+  panel: { backgroundColor: colores.fondo, borderRadius: 24, padding: 18, gap: 10, maxHeight: '92%' },
+  titulo: { fontFamily: fuentes.negrita, fontSize: 22, color: colores.textoPrincipal },
+  tarjeta: { borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: colores.borde },
+  banda: { backgroundColor: colores.textoPrincipal, padding: 16, gap: 6 },
+  etiqueta: { fontFamily: fuentes.seminegrita, fontSize: 11, letterSpacing: 2, color: colores.acento },
+  nombre: { fontFamily: fuentes.negrita, fontSize: 22, color: colores.textoSobrePrimario },
+  cuerpo: { padding: 14, gap: 4, backgroundColor: colores.fondoSuave2 },
+  descripcion: { fontFamily: fuentes.normal, fontSize: 15, color: colores.textoPrincipal },
+  dominio: { fontFamily: fuentes.normal, fontSize: 13, color: colores.textoSobreCristal },
+  mensaje: { maxHeight: 90, backgroundColor: colores.fondoSuave, borderRadius: 12, padding: 12 },
+  textoMensaje: { fontFamily: fuentes.normal, fontSize: 15, lineHeight: 22, color: colores.textoPrincipal },
+  aviso: { fontFamily: fuentes.normal, fontSize: 14, color: colores.textoSobreCristal, textAlign: 'center' },
   error: { fontFamily: fuentes.media, fontSize: 16, color: colores.error },
-  botones: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 4 },
-  secundario: { paddingHorizontal: 18, paddingVertical: 12, borderRadius: 999, backgroundColor: colores.chip },
-  textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal },
-  primario: { paddingHorizontal: 18, paddingVertical: 12, borderRadius: 999, backgroundColor: colores.primario },
-  textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePrimario },
+  primario: { paddingVertical: 15, borderRadius: 999, backgroundColor: colores.primario, alignItems: 'center' },
+  textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoSobrePrimario },
+  fila: { flexDirection: 'row', gap: 10 },
+  secundario: { flex: 1, paddingVertical: 13, borderRadius: 999, backgroundColor: colores.chip, alignItems: 'center' },
+  textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 16, color: colores.textoPrincipal },
 });

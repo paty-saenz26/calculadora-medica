@@ -6,7 +6,6 @@ import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
-import { construirTextoCompartir } from '../../../../domain/compartir';
 import { describirValores, formatearFecha } from '../../../../domain/historial';
 import { useAlmacen } from '../../../../state/instancias';
 import { useEspacioBarra } from '../../../../ui/barraPestanas';
@@ -128,7 +127,8 @@ export default function DetalleCalculo() {
       {calculadora ? (
         <ModalCompartir
           visible={compartiendo}
-          texto={construirTextoCompartir(calculadora, calculo)}
+          calculadora={calculadora}
+          calculo={calculo}
           onCerrar={() => setCompartiendo(false)}
         />
       ) : null}

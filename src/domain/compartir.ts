@@ -27,3 +27,20 @@ export function construirTextoCompartir(calculadora: Calculadora, calculo: Calcu
     .filter((bloque) => bloque.trim() !== '')
     .join('\n\n');
 }
+
+/** Dirección pública de las páginas de las calculadoras (GitHub Pages, carpeta docs/). */
+export const URL_BASE = 'https://paty-saenz26.github.io/calculadora-medica';
+
+/** Enlace a la página de una calculadora. WhatsApp y otras apps lo muestran como tarjeta con imagen. */
+export function urlCalculadora(calculadoraId: string): string {
+  return `${URL_BASE}/c/${calculadoraId}/`;
+}
+
+/**
+ * Mensaje para compartir con tarjeta: una línea con el resultado y el enlace.
+ * Nunca incluye la nota ni datos del usuario (R4).
+ */
+export function construirMensajeEnlace(calculadora: Calculadora, calculo: CalculoGuardado): string {
+  const r = calculo.resultado;
+  return `${calculadora.nombre}: ${r.valor}${r.unidad ? ` ${r.unidad}` : ''}\n${urlCalculadora(calculadora.id)}`;
+}

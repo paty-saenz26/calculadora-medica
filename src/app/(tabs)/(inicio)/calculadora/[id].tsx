@@ -7,7 +7,6 @@ import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleS
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
-import { construirTextoCompartir } from '../../../../domain/compartir';
 import { construirCalculo, nuevoId } from '../../../../domain/historial';
 import { evaluar } from '../../../../domain/motor';
 import type { Calculadora } from '../../../../domain/tipos';
@@ -223,10 +222,8 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
       {estado.resultado ? (
         <ModalCompartir
           visible={compartiendo}
-          texto={construirTextoCompartir(
-            calculadora,
-            construirCalculo(calculadora, { valores, unidades }, estado.resultado, 'compartir', Date.now()),
-          )}
+          calculadora={calculadora}
+          calculo={construirCalculo(calculadora, { valores, unidades }, estado.resultado, 'compartir', Date.now())}
           onCerrar={() => setCompartiendo(false)}
         />
       ) : null}
