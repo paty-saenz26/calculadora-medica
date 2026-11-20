@@ -2,6 +2,7 @@
 import { servicioAuth } from '../data/autenticacion';
 import { almacenamientoLocal } from '../data/local';
 import { nubeFirestore } from '../data/nube';
+import { crearAjustes } from './ajustes';
 import { crearAlmacen } from './almacen';
 import { crearSesion } from './sesion';
 
@@ -14,3 +15,5 @@ export const useSesion = crearSesion(servicioAuth, (usuario) => {
     .importarDeNube(usuario.uid)
     .catch(() => undefined); // sin conexión: se usa lo que ya hay en el teléfono
 });
+
+export const useAjustes = crearAjustes(almacenamientoLocal);
