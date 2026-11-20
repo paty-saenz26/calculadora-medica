@@ -51,6 +51,15 @@ describe('almacén de historial y favoritos (invitado)', () => {
     expect(fechas.b).toBe(5);
   });
 
+  it('elimina varios cálculos a la vez', () => {
+    const useA = crearAlmacen(memoria());
+    useA.getState().guardarCalculo(calculo('120', '80', 'a', 1));
+    useA.getState().guardarCalculo(calculo('110', '70', 'b', 2));
+    useA.getState().guardarCalculo(calculo('100', '60', 'c', 3));
+    useA.getState().eliminarCalculos(['a', 'c']);
+    expect(useA.getState().calculos.map((c) => c.id)).toEqual(['b']);
+  });
+
   it('edita la nota, la valida y la quita con texto vacío', () => {
     const useA = crearAlmacen(memoria());
     useA.getState().guardarCalculo(calculo('120', '80', 'a', 1));

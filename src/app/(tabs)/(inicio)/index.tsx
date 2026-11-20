@@ -1,5 +1,5 @@
 // Inicio (F02): búsqueda en vivo y pestañas Recientes, Favoritas, Especialidades y Todas.
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,6 +20,7 @@ import { useEspacioBarra } from '../../../ui/barraPestanas';
 import { Cristal } from '../../../ui/componentes/Cristal';
 import { FilaCalculadora } from '../../../ui/componentes/FilaCalculadora';
 import { Fondo } from '../../../ui/componentes/Fondo';
+import { iconoEspecialidad } from '../../../ui/iconosEspecialidad';
 import { colores, fuentes } from '../../../ui/tema';
 
 type Pestana = 'recientes' | 'favoritas' | 'especialidades' | 'todas';
@@ -107,7 +108,12 @@ export default function Inicio() {
         <Pressable key={g.especialidad} accessibilityRole="button" onPress={() => setEspecialidad(g.especialidad)}>
           <Cristal>
             <View style={estilos.filaGrupo}>
-              <Text style={estilos.nombre}>{g.especialidad}</Text>
+              <View style={estilos.izquierda}>
+                <View style={estilos.icono}>
+                  <MaterialCommunityIcons name={iconoEspecialidad(g.especialidad)} size={26} color={colores.primario} />
+                </View>
+                <Text style={estilos.nombre}>{g.especialidad}</Text>
+              </View>
               <Text style={estilos.cuenta}>{g.calculadoras.length}</Text>
             </View>
           </Cristal>
@@ -188,6 +194,8 @@ const estilos = StyleSheet.create({
   lista: { gap: 12 },
   nombre: { fontFamily: fuentes.negrita, fontSize: 20, color: colores.textoPrincipal },
   filaGrupo: { padding: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  izquierda: { flexDirection: 'row', alignItems: 'center', gap: 14, flexShrink: 1 },
+  icono: { width: 40, height: 40, borderRadius: 20, backgroundColor: colores.chip, alignItems: 'center', justifyContent: 'center' },
   cuenta: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoSobreCristal },
   volver: { flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-start' },
   textoVolver: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.primario },

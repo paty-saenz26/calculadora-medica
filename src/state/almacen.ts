@@ -17,6 +17,7 @@ export type EstadoAlmacen = {
   /** R2: la nota es lo único editable. Texto vacío la elimina (R9). */
   editarNota: (id: string, texto: string) => { ok: true } | { ok: false; mensaje: string };
   eliminarCalculo: (id: string) => void;
+  eliminarCalculos: (ids: string[]) => void;
   alternarFavorito: (calculadoraId: string, uid?: string, fecha?: number) => void;
   esFavorita: (calculadoraId: string, uid?: string) => boolean;
   /** Descarga lo de la cuenta y reemplaza lo local de esa cuenta (nube = fuente de verdad). */
@@ -72,6 +73,14 @@ export function crearAlmacen(storage: StateStorage, nube?: Nube) {
           const calculo = get().calculos.find((c) => c.id === id);
           set((s) => ({ calculos: s.calculos.filter((c) => c.id !== id) }));
           if (calculo?.usuarioId) intentar(nube?.eliminarCalculo(calculo.usuarioId, id));
+        },
+        eliminarCalculos: (ids) => {
+          const borrar = new Set(ids);
+          const quitados = get().calculos.filter((c) => borrar.has(c.id));
+          set((s) => ({ calculos: s.calculos.filter((c) => !borrar.has(c.id)) }));
+          quitados.forEach((c) => {
+            if (c.usuarioId) intentar(nube?.eliminarCalculo(c.usuarioId, c.id));
+          });
         },
         alternarFavorito: (calculadoraId, uid, fecha = Date.now()) => {
           const eraFavorita = esFavorita(get().favoritos, calculadoraId, uid);
