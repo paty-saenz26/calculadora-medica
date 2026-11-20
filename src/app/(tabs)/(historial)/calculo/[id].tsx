@@ -6,11 +6,13 @@ import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
+import { construirTextoCompartir } from '../../../../domain/compartir';
 import { describirValores, formatearFecha } from '../../../../domain/historial';
 import { useAlmacen } from '../../../../state/instancias';
 import { useEspacioBarra } from '../../../../ui/barraPestanas';
 import { Cristal } from '../../../../ui/componentes/Cristal';
 import { Fondo } from '../../../../ui/componentes/Fondo';
+import { ModalCompartir } from '../../../../ui/componentes/ModalCompartir';
 import { ModalNota } from '../../../../ui/componentes/ModalNota';
 import { colores, fuentes } from '../../../../ui/tema';
 
@@ -23,6 +25,7 @@ export default function DetalleCalculo() {
   const editarNota = useAlmacen((s) => s.editarNota);
   const eliminar = useAlmacen((s) => s.eliminarCalculo);
   const [editando, setEditando] = useState(false);
+  const [compartiendo, setCompartiendo] = useState(false);
 
   const volver = (
     <Pressable accessibilityRole="button" accessibilityLabel="Volver" onPress={() => router.back()} style={estilos.botonCircular}>
@@ -108,14 +111,27 @@ export default function DetalleCalculo() {
         {calculadora ? <Text style={estilos.fuente}>Fuente: {calculadora.fuente}</Text> : null}
 
         <View style={estilos.botones}>
-          <Pressable accessibilityRole="button" onPress={() => setEditando(true)} style={estilos.primario}>
-            <Text style={estilos.textoPrimario}>{calculo.nota ? 'Editar nota' : 'Agregar nota'}</Text>
+          {calculadora ? (
+            <Pressable accessibilityRole="button" onPress={() => setCompartiendo(true)} style={estilos.primario}>
+              <Text style={estilos.textoPrimario}>Compartir</Text>
+            </Pressable>
+          ) : null}
+          <Pressable accessibilityRole="button" onPress={() => setEditando(true)} style={estilos.peligro}>
+            <Text style={estilos.textoNeutro}>{calculo.nota ? 'Editar nota' : 'Agregar nota'}</Text>
           </Pressable>
           <Pressable accessibilityRole="button" onPress={confirmarEliminar} style={estilos.peligro}>
             <Text style={estilos.textoPeligro}>Eliminar</Text>
           </Pressable>
         </View>
       </ScrollView>
+
+      {calculadora ? (
+        <ModalCompartir
+          visible={compartiendo}
+          texto={construirTextoCompartir(calculadora, calculo)}
+          onCerrar={() => setCompartiendo(false)}
+        />
+      ) : null}
 
       <ModalNota
         visible={editando}
@@ -152,5 +168,6 @@ const estilos = StyleSheet.create({
   primario: { paddingHorizontal: 20, paddingVertical: 14, borderRadius: 999, backgroundColor: colores.primario },
   textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePrimario },
   peligro: { paddingHorizontal: 20, paddingVertical: 14, borderRadius: 999, backgroundColor: colores.chip },
+  textoNeutro: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal },
   textoPeligro: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.error },
 });

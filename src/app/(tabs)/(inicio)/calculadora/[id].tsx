@@ -7,6 +7,7 @@ import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleS
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { obtenerCalculadora } from '../../../../domain/calculadoras/catalogo';
+import { construirTextoCompartir } from '../../../../domain/compartir';
 import { construirCalculo, nuevoId } from '../../../../domain/historial';
 import { evaluar } from '../../../../domain/motor';
 import type { Calculadora } from '../../../../domain/tipos';
@@ -19,6 +20,7 @@ import { BotonFavorito } from '../../../../ui/componentes/BotonFavorito';
 import { CampoNumeroUI } from '../../../../ui/componentes/CampoNumeroUI';
 import { CampoOpcionUI } from '../../../../ui/componentes/CampoOpcionUI';
 import { CampoSiNoUI } from '../../../../ui/componentes/CampoSiNoUI';
+import { ModalCompartir } from '../../../../ui/componentes/ModalCompartir';
 import { Cristal } from '../../../../ui/componentes/Cristal';
 import { Fondo } from '../../../../ui/componentes/Fondo';
 import { colores, fuentes } from '../../../../ui/tema';
@@ -47,6 +49,7 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
   const [tocados, setTocados] = useState<Record<string, boolean>>({});
   const [ultimoEditado, setUltimoEditado] = useState<string>();
   const [tecladoVisible, setTecladoVisible] = useState(false);
+  const [compartiendo, setCompartiendo] = useState(false);
 
   // Con el teclado abierto el espacio es poco: la barra de resultado pasa a su versión compacta.
   useEffect(() => {
@@ -127,12 +130,28 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
                 </View>
               </Cristal>
             </Pressable>
-            <View style={estilos.botonCircular}>
-              <Cristal radio={24}>
-                <View style={estilos.contenidoBoton}>
-                  <BotonFavorito activo={esFavorita} onPress={() => alternarFavorito(calculadora.id, uid)} />
-                </View>
-              </Cristal>
+            <View style={estilos.grupoDerecha}>
+              {estado.resultado ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Compartir"
+                  onPress={() => setCompartiendo(true)}
+                  style={estilos.botonCircular}
+                >
+                  <Cristal radio={24}>
+                    <View style={estilos.contenidoBoton}>
+                      <Ionicons name="share-outline" size={24} color={colores.textoPrincipal} />
+                    </View>
+                  </Cristal>
+                </Pressable>
+              ) : null}
+              <View style={estilos.botonCircular}>
+                <Cristal radio={24}>
+                  <View style={estilos.contenidoBoton}>
+                    <BotonFavorito activo={esFavorita} onPress={() => alternarFavorito(calculadora.id, uid)} />
+                  </View>
+                </Cristal>
+              </View>
             </View>
           </View>
 
@@ -201,6 +220,16 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
           <BarraResultado estado={estado} compacta={tecladoVisible} />
         </View>
       </KeyboardAvoidingView>
+      {estado.resultado ? (
+        <ModalCompartir
+          visible={compartiendo}
+          texto={construirTextoCompartir(
+            calculadora,
+            construirCalculo(calculadora, { valores, unidades }, estado.resultado, 'compartir', Date.now()),
+          )}
+          onCerrar={() => setCompartiendo(false)}
+        />
+      ) : null}
       {/* Difuminado bajo la barra de estado: el contenido ya no se encima con la hora. */}
       <BlurView
         pointerEvents="none"
@@ -217,6 +246,7 @@ const estilos = StyleSheet.create({
   noEncontrada: { marginTop: 120, textAlign: 'center', fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   contenido: { paddingHorizontal: 16, paddingBottom: 24, gap: 14 },
   encabezado: { flexDirection: 'row', justifyContent: 'space-between' },
+  grupoDerecha: { flexDirection: 'row', gap: 10 },
   botonCircular: { width: 48, height: 48 },
   contenidoBoton: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
   titulos: { gap: 8, alignItems: 'flex-start' },
