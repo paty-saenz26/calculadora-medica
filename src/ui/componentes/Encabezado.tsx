@@ -4,7 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { colores, fuentes } from '../tema';
+import { colores, fuentes, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 import { LogoMS } from './LogoMS';
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
 
 /** Barra verde fija de la app: logo y nombre de la pantalla. Cubre también la zona de la hora y la batería. */
 export function Encabezado({ titulo, atras }: Props) {
+  useTema();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   return (
@@ -28,7 +30,7 @@ export function Encabezado({ titulo, atras }: Props) {
           hitSlop={10}
           style={estilos.atras}
         >
-          <Ionicons name="chevron-back" size={28} color={colores.textoSobrePrimario} />
+          <Ionicons name="chevron-back" size={28} color={colores.textoSobreBarra} />
         </Pressable>
       ) : null}
       <LogoMS />
@@ -39,15 +41,15 @@ export function Encabezado({ titulo, atras }: Props) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   barra: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 14,
     paddingHorizontal: 16,
     paddingBottom: 10,
-    backgroundColor: colores.primario,
+    backgroundColor: colores.barra,
   },
   atras: { marginRight: -6 },
-  titulo: { flex: 1, fontFamily: fuentes.negrita, fontSize: 24, color: colores.textoSobrePrimario },
-});
+  titulo: { flex: 1, fontFamily: fuentes.negrita, fontSize: 24, color: colores.textoSobreBarra },
+}));

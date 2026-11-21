@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { CampoOpcion } from '../../domain/tipos';
-import { colores, fuentes } from '../tema';
+import { colores, fuentes, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 
 const conPuntos = (etiqueta: string, puntos?: number) =>
   puntos === undefined ? etiqueta : `${etiqueta} (${puntos > 0 ? '+' : ''}${puntos})`;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function CampoOpcionUI({ campo, valor, onCambiar }: Props) {
+  useTema();
   return (
     <Cristal>
       <View style={estilos.contenido}>
@@ -39,7 +41,7 @@ export function CampoOpcionUI({ campo, valor, onCambiar }: Props) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   contenido: { padding: 16, gap: 10 },
   etiqueta: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   opciones: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
@@ -55,4 +57,4 @@ const estilos = StyleSheet.create({
   opcionActiva: { backgroundColor: colores.primario },
   texto: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   textoActivo: { color: colores.textoSobrePrimario },
-});
+}));

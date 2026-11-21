@@ -1,7 +1,8 @@
 import { useRef, type ReactNode } from 'react';
 import { Animated, PanResponder, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colores, fuentes } from '../tema';
+import { colores, fuentes, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 
 const ANCHO_ACCION = 96;
 
@@ -14,6 +15,7 @@ type Props = {
 
 /** Fila que se desliza a la izquierda para mostrar "Eliminar" (como en iPhone). */
 export function FilaDeslizable({ children, onEliminar, desactivado }: Props) {
+  useTema();
   const x = useRef(new Animated.Value(0)).current;
   const abierta = useRef(false);
   const inactivo = useRef(desactivado);
@@ -66,15 +68,15 @@ export function FilaDeslizable({ children, onEliminar, desactivado }: Props) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   accion: { ...StyleSheet.absoluteFill, alignItems: 'flex-end' },
   boton: {
     width: ANCHO_ACCION - 8,
     height: '100%',
     borderRadius: 24,
-    backgroundColor: colores.error,
+    backgroundColor: colores.peligro,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  texto: { fontFamily: fuentes.seminegrita, fontSize: 16, color: '#FFFFFF' },
-});
+  texto: { fontFamily: fuentes.seminegrita, fontSize: 16, color: colores.textoSobrePeligro },
+}));

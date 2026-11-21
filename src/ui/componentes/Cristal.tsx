@@ -2,7 +2,8 @@ import { BlurView } from 'expo-blur';
 import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { colores, radios } from '../tema';
+import { colores, radios, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 
 type Props = {
   children: ReactNode;
@@ -14,6 +15,7 @@ type Props = {
 
 /** Tarjeta de cristal: desenfoque, blanco translúcido y borde blanco fino (constitución, 3.1). */
 export function Cristal({ children, radio = radios.tarjeta, style, bordeColor }: Props) {
+  const modo = useTema();
   return (
     <View style={[estilos.sombra, { borderRadius: radio }]}>
       <View
@@ -24,7 +26,7 @@ export function Cristal({ children, radio = radios.tarjeta, style, bordeColor }:
           style,
         ]}
       >
-        <BlurView intensity={40} tint="light" style={StyleSheet.absoluteFill} />
+        <BlurView intensity={40} tint={modo === 'oscuro' ? 'dark' : 'light'} style={StyleSheet.absoluteFill} />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: colores.cristal }]} />
         {children}
       </View>
@@ -32,9 +34,9 @@ export function Cristal({ children, radio = radios.tarjeta, style, bordeColor }:
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   sombra: {
-    shadowColor: '#284C3B',
+    shadowColor: colores.sombra,
     shadowOpacity: 0.16,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 8 },
@@ -43,4 +45,4 @@ const estilos = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
   },
-});
+}));

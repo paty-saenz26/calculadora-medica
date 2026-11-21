@@ -2,20 +2,31 @@
 import { useRouter } from 'expo-router';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { useSesion } from '../../state/instancias';
+import type { PreferenciaTema } from '../../state/ajustes';
+import { useAjustes, useSesion } from '../../state/instancias';
 import { useEspacioBarra } from '../../ui/barraPestanas';
 import { Cristal } from '../../ui/componentes/Cristal';
 import { Encabezado } from '../../ui/componentes/Encabezado';
 import { Fondo } from '../../ui/componentes/Fondo';
-import { colores, fuentes } from '../../ui/tema';
+import { colores, fuentes, estilosTema } from '../../ui/tema';
+import { useTema } from '../../ui/useTema';
 
 const VERSION = '1.0.0';
 
+const OPCIONES_TEMA: { valor: PreferenciaTema; etiqueta: string }[] = [
+  { valor: 'sistema', etiqueta: 'Sistema' },
+  { valor: 'claro', etiqueta: 'Claro' },
+  { valor: 'oscuro', etiqueta: 'Oscuro' },
+];
+
 export default function Perfil() {
+  useTema();
   const router = useRouter();
   const espacioBarra = useEspacioBarra();
   const usuario = useSesion((s) => s.usuario);
   const cerrar = useSesion((s) => s.cerrar);
+  const tema = useAjustes((s) => s.tema);
+  const cambiarTema = useAjustes((s) => s.cambiarTema);
 
   const confirmarCerrar = () =>
     Alert.alert('¿Cerrar sesión?', 'Tus cálculos y favoritos de la cuenta seguirán en la nube.', [
@@ -72,6 +83,29 @@ export default function Perfil() {
           </View>
         </Cristal>
 
+        <Cristal>
+          <View style={estilos.bloque}>
+            <Text style={estilos.etiqueta}>Apariencia</Text>
+            <View style={estilos.botones} accessibilityRole="radiogroup">
+              {OPCIONES_TEMA.map((o) => {
+                const activa = tema === o.valor;
+                return (
+                  <Pressable
+                    key={o.valor}
+                    accessibilityRole="radio"
+                    accessibilityState={{ selected: activa }}
+                    onPress={() => cambiarTema(o.valor)}
+                    style={activa ? estilos.primario : estilos.secundario}
+                  >
+                    <Text style={activa ? estilos.textoPrimario : estilos.textoSecundario}>{o.etiqueta}</Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text style={estilos.nota}>«Sistema» sigue el modo claro u oscuro de tu teléfono.</Text>
+          </View>
+        </Cristal>
+
         <Text style={estilos.aviso}>
           Resultados de apoyo a la decisión clínica; no sustituyen el criterio médico. Las calculadoras están pendientes de
           validación por un médico. Cada una muestra su fuente bibliográfica.
@@ -82,7 +116,7 @@ export default function Perfil() {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 16 },
   bloque: { padding: 20, gap: 10 },
@@ -94,6 +128,7 @@ const estilos = StyleSheet.create({
   textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePrimario },
   secundario: { paddingHorizontal: 20, paddingVertical: 14, borderRadius: 999, backgroundColor: colores.chip, alignSelf: 'flex-start' },
   textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal },
+  nota: { fontFamily: fuentes.normal, fontSize: 15, color: colores.textoSobreCristal },
   aviso: { fontFamily: fuentes.normal, fontSize: 16, lineHeight: 24, color: colores.textoPrincipal },
   version: { fontFamily: fuentes.normal, fontSize: 14, color: colores.textoSobreCristal },
-});
+}));

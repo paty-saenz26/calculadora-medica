@@ -5,9 +5,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAjustes } from '../state/instancias';
 import { Fondo } from '../ui/componentes/Fondo';
-import { colores, fuentes } from '../ui/tema';
+import { colores, fuentes, estilosTema } from '../ui/tema';
+import { useTema } from '../ui/useTema';
 
 export default function Bienvenida() {
+  useTema();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const marcarVista = useAjustes((s) => s.marcarBienvenidaVista);
@@ -48,7 +50,7 @@ export default function Bienvenida() {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   contenido: { flex: 1, paddingHorizontal: 24, justifyContent: 'space-between' },
   marca: { gap: 14, alignItems: 'flex-start' },
   logo: { width: 84, height: 84, borderRadius: 22, backgroundColor: colores.primario, alignItems: 'center', justifyContent: 'center' },
@@ -61,4 +63,4 @@ const estilos = StyleSheet.create({
   secundario: { paddingVertical: 16, borderRadius: 999, backgroundColor: colores.chip, alignItems: 'center' },
   textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoPrincipal },
   nota: { fontFamily: fuentes.normal, fontSize: 15, lineHeight: 22, color: colores.textoSobreCristal, textAlign: 'center', marginTop: 4 },
-});
+}));

@@ -1,8 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
 import type { ReactNode } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import { colores } from '../tema';
+import { colores, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 
 // Medidas del diseño G, pensado en una pantalla de 390 x 844.
 const DISENO = { ancho: 390, alto: 844 };
@@ -10,6 +12,7 @@ const ELIPSE = { izquierda: 284, arriba: 59, ancho: 515, alto: 727 }; // asoma ~
 
 /** Fondo de las pantallas: degradado verde claro con una sola forma curva pegada al borde derecho. */
 export function Fondo({ children }: { children: ReactNode }) {
+  const modo = useTema();
   const { width, height } = useWindowDimensions();
   const escalaX = width / DISENO.ancho;
   const escalaY = height / DISENO.alto;
@@ -22,6 +25,7 @@ export function Fondo({ children }: { children: ReactNode }) {
       end={{ x: 0.6, y: 1 }}
       style={estilos.fondo}
     >
+      <StatusBar style={modo === 'oscuro' ? 'light' : 'dark'} />
       <View pointerEvents="none" style={[StyleSheet.absoluteFill, estilos.recorte]}>
         <LinearGradient
           colors={[colores.formaInicio, colores.formaFin]}
@@ -43,7 +47,7 @@ export function Fondo({ children }: { children: ReactNode }) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   fondo: { flex: 1 },
   recorte: { overflow: 'hidden' },
-});
+}));

@@ -2,7 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
 
 import type { EstadoCalculadora } from '../../domain/motor';
-import { colores, fuentes, radios } from '../tema';
+import { colores, fuentes, radios, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 import { Cristal } from './Cristal';
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 
 /** Barra fija con tres estados: faltantes, por corregir y resultado (F03, D11). */
 export function BarraResultado({ estado, compacta = false }: Props) {
+  useTema();
   const { faltantes, errores, reglas, resultado } = estado;
   const hayProblemas = Object.keys(errores).length > 0 || reglas.length > 0;
 
@@ -71,7 +73,7 @@ export function BarraResultado({ estado, compacta = false }: Props) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   contenido: { padding: 16, gap: 6 },
   contenidoCompacto: { paddingHorizontal: 16, paddingVertical: 8, minHeight: 56, justifyContent: 'center' },
   titulo: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
@@ -83,4 +85,4 @@ const estilos = StyleSheet.create({
   interpretacion: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal },
   mensaje: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
   filaAviso: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-});
+}));

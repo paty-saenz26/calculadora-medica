@@ -16,7 +16,8 @@ import { useAlmacen, useSesion } from '../state/instancias';
 import { CampoTexto } from '../ui/componentes/CampoTexto';
 import { Cristal } from '../ui/componentes/Cristal';
 import { Fondo } from '../ui/componentes/Fondo';
-import { colores, fuentes } from '../ui/tema';
+import { colores, fuentes, estilosTema } from '../ui/tema';
+import { useTema } from '../ui/useTema';
 
 type Modo = 'iniciar' | 'registrar' | 'recuperar';
 
@@ -27,6 +28,7 @@ const TITULOS: Record<Modo, string> = {
 };
 
 export default function Acceso() {
+  useTema();
   const { modo: modoInicial } = useLocalSearchParams<{ modo?: Modo }>();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -193,7 +195,7 @@ export default function Acceso() {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 14 },
   cerrar: { width: 48, height: 48 },
@@ -206,4 +208,4 @@ const estilos = StyleSheet.create({
   desactivado: { opacity: 0.45 },
   enlaces: { gap: 14, alignItems: 'center', marginTop: 6 },
   enlace: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.primario },
-});
+}));

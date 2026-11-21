@@ -21,7 +21,8 @@ import { Encabezado } from '../../../ui/componentes/Encabezado';
 import { FilaCalculadora } from '../../../ui/componentes/FilaCalculadora';
 import { Fondo } from '../../../ui/componentes/Fondo';
 import { iconoEspecialidad } from '../../../ui/iconosEspecialidad';
-import { colores, fuentes } from '../../../ui/tema';
+import { colores, fuentes, estilosTema } from '../../../ui/tema';
+import { useTema } from '../../../ui/useTema';
 
 type Pestana = 'recientes' | 'favoritas' | 'especialidades' | 'todas';
 
@@ -33,6 +34,7 @@ const PESTANAS: { id: Pestana; titulo: string }[] = [
 ];
 
 export default function Inicio() {
+  useTema();
   const espacioBarra = useEspacioBarra();
   const uid = useUid();
   const calculos = useMisCalculos();
@@ -180,7 +182,7 @@ export default function Inicio() {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 14 },
   busqueda: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 18, minHeight: 52 },
@@ -203,4 +205,4 @@ const estilos = StyleSheet.create({
   mensaje: { fontFamily: fuentes.media, fontSize: 18, lineHeight: 26, color: colores.textoPrincipal, textAlign: 'center' },
   botonVacio: { paddingHorizontal: 20, paddingVertical: 12, borderRadius: 999, backgroundColor: colores.primario },
   textoBotonVacio: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePrimario },
-});
+}));

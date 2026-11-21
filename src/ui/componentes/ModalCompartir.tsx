@@ -11,7 +11,8 @@ import {
 } from '../../domain/compartir';
 import type { CalculoGuardado } from '../../domain/historial';
 import type { Calculadora } from '../../domain/tipos';
-import { colores, fuentes } from '../tema';
+import { colores, fuentes, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 
 type Props = { visible: boolean; calculadora: Calculadora; calculo: CalculoGuardado; onCerrar: () => void };
 
@@ -20,6 +21,7 @@ type Props = { visible: boolean; calculadora: Calculadora; calculo: CalculoGuard
  * que las apps de mensajes muestran como tarjeta con imagen; "Compartir texto" manda el resumen completo.
  */
 export function ModalCompartir({ visible, calculadora, calculo, onCerrar }: Props) {
+  useTema();
   const [error, setError] = useState<string>();
   const [ocupado, setOcupado] = useState(false);
   const mensaje = construirMensajeEnlace(calculadora, calculo, urlCorta(calculadora.id, 'xxxxxxxx'));
@@ -94,8 +96,8 @@ export function ModalCompartir({ visible, calculadora, calculo, onCerrar }: Prop
   );
 }
 
-const estilos = StyleSheet.create({
-  fondo: { flex: 1, backgroundColor: 'rgba(40,76,59,0.55)', justifyContent: 'center', padding: 16 },
+const estilos = estilosTema(() => StyleSheet.create({
+  fondo: { flex: 1, backgroundColor: colores.veloFuerte, justifyContent: 'center', padding: 16 },
   panel: { backgroundColor: colores.fondo, borderRadius: 24, padding: 18, gap: 10, maxHeight: '92%' },
   titulo: { fontFamily: fuentes.negrita, fontSize: 22, color: colores.textoPrincipal },
   tarjeta: { borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: colores.borde },
@@ -115,4 +117,4 @@ const estilos = StyleSheet.create({
   fila: { flexDirection: 'row', gap: 10 },
   secundario: { flex: 1, paddingVertical: 13, borderRadius: 999, backgroundColor: colores.chip, alignItems: 'center' },
   textoSecundario: { fontFamily: fuentes.seminegrita, fontSize: 16, color: colores.textoPrincipal },
-});
+}));

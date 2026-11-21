@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
-import { colores, fuentes } from '../tema';
+import { colores, fuentes, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 import { Cristal } from './Cristal';
 
 type Props = Pick<TextInputProps, 'keyboardType' | 'autoCapitalize' | 'secureTextEntry' | 'textContentType' | 'autoComplete'> & {
@@ -13,6 +14,7 @@ type Props = Pick<TextInputProps, 'keyboardType' | 'autoCapitalize' | 'secureTex
 
 /** Campo de texto con etiqueta y error debajo (D12: el error aparece al salir del campo). */
 export function CampoTexto({ etiqueta, valor, error, onCambiar, onTerminar, ...resto }: Props) {
+  useTema();
   return (
     <View style={estilos.contenedor}>
       <Cristal bordeColor={error ? colores.error : undefined}>
@@ -34,10 +36,10 @@ export function CampoTexto({ etiqueta, valor, error, onCambiar, onTerminar, ...r
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   contenedor: { gap: 6 },
   contenido: { paddingHorizontal: 16, paddingVertical: 12 },
   etiqueta: { fontFamily: fuentes.media, fontSize: 16, color: colores.textoSobreCristal },
   entrada: { fontFamily: fuentes.normal, fontSize: 20, color: colores.textoPrincipal, paddingVertical: 4 },
   error: { fontFamily: fuentes.media, fontSize: 16, color: colores.error, paddingHorizontal: 8 },
-});
+}));

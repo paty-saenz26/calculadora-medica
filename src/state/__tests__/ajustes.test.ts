@@ -25,3 +25,16 @@ describe('F01 pantalla de bienvenida: solo la primera vez', () => {
     expect(reabierta.getState().bienvenidaVista).toBe(true);
   });
 });
+
+describe('apariencia: claro, oscuro o la del teléfono', () => {
+  it('empieza siguiendo al sistema y recuerda la elección al reabrir la app', async () => {
+    const mem = memoria();
+    const primera = crearAjustes(mem);
+    expect(primera.getState().tema).toBe('sistema');
+    primera.getState().cambiarTema('oscuro');
+
+    const reabierta = crearAjustes(mem);
+    await reabierta.persist.rehydrate();
+    expect(reabierta.getState().tema).toBe('oscuro');
+  });
+});

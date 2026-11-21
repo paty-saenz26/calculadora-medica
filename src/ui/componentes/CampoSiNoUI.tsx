@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { CampoSiNo } from '../../domain/tipos';
-import { colores, fuentes } from '../tema';
+import { colores, fuentes, estilosTema } from '../tema';
+import { useTema } from '../useTema';
 import { Cristal } from './Cristal';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export function CampoSiNoUI({ campo, valor, onCambiar }: Props) {
+  useTema();
   const boton = (activa: boolean, etiqueta: string, nuevo: boolean) => (
     <Pressable
       accessibilityRole="radio"
@@ -35,7 +37,7 @@ export function CampoSiNoUI({ campo, valor, onCambiar }: Props) {
   );
 }
 
-const estilos = StyleSheet.create({
+const estilos = estilosTema(() => StyleSheet.create({
   contenido: { padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   etiqueta: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
   opciones: { flexDirection: 'row', gap: 8 },
@@ -52,4 +54,4 @@ const estilos = StyleSheet.create({
   opcionActiva: { backgroundColor: colores.primario },
   texto: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   textoActivo: { color: colores.textoSobrePrimario },
-});
+}));
