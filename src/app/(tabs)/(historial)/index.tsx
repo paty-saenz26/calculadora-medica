@@ -13,11 +13,9 @@ import { Cristal } from '../../../ui/componentes/Cristal';
 import { FilaDeslizable } from '../../../ui/componentes/FilaDeslizable';
 import { Encabezado } from '../../../ui/componentes/Encabezado';
 import { Fondo } from '../../../ui/componentes/Fondo';
-import { colores, fuentes, estilosTema } from '../../../ui/tema';
-import { useTema } from '../../../ui/useTema';
+import { colores, fuentes } from '../../../ui/tema';
 
 export default function Historial() {
-  useTema();
   const router = useRouter();
   const espacioBarra = useEspacioBarra();
   const calculos = useMisCalculos();
@@ -186,7 +184,7 @@ export default function Historial() {
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
+const estilos = StyleSheet.create({
   contenido: { paddingHorizontal: 16, flexGrow: 1 },
   encabezado: { marginBottom: 16, gap: 12 },
   tituloFila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' },
@@ -194,8 +192,8 @@ const estilos = estilosTema(() => StyleSheet.create({
   acciones: { flexDirection: 'row', gap: 8 },
   chip: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, backgroundColor: colores.chip },
   chipTexto: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal },
-  chipEliminar: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, backgroundColor: colores.peligro },
-  chipEliminarTexto: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePeligro },
+  chipEliminar: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, backgroundColor: colores.error },
+  chipEliminarTexto: { fontFamily: fuentes.seminegrita, fontSize: 17, color: '#FFFFFF' },
   desactivado: { opacity: 0.45 },
   separador: { height: 12 },
   fila: { padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
@@ -211,4 +209,4 @@ const estilos = estilosTema(() => StyleSheet.create({
   submensaje: { fontFamily: fuentes.normal, fontSize: 16, color: colores.textoSobreCristal, textAlign: 'center' },
   reintentar: { paddingHorizontal: 18, paddingVertical: 12, borderRadius: 999, backgroundColor: colores.primario },
   textoReintentar: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoSobrePrimario },
-}));
+});

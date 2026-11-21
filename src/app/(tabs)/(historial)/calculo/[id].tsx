@@ -12,11 +12,9 @@ import { Encabezado } from '../../../../ui/componentes/Encabezado';
 import { Fondo } from '../../../../ui/componentes/Fondo';
 import { ModalCompartir } from '../../../../ui/componentes/ModalCompartir';
 import { ModalNota } from '../../../../ui/componentes/ModalNota';
-import { colores, fuentes, estilosTema } from '../../../../ui/tema';
-import { useTema } from '../../../../ui/useTema';
+import { colores, fuentes } from '../../../../ui/tema';
 
 export default function DetalleCalculo() {
-  useTema();
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const espacioBarra = useEspacioBarra();
@@ -135,7 +133,7 @@ export default function DetalleCalculo() {
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
+const estilos = StyleSheet.create({
   flex: { flex: 1 },
   contenido: { paddingHorizontal: 16, gap: 14 },
   botonCircular: { width: 48, height: 48 },
@@ -161,4 +159,4 @@ const estilos = estilosTema(() => StyleSheet.create({
   peligro: { paddingHorizontal: 20, paddingVertical: 14, borderRadius: 999, backgroundColor: colores.chip },
   textoNeutro: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal },
   textoPeligro: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.error },
-}));
+});

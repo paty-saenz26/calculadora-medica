@@ -1,15 +1,12 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { colores, fuentes, estilosTema } from '../tema';
-import { useTema } from '../useTema';
+import { colores, fuentes } from '../tema';
 
-// El logo conserva sus colores en los dos temas.
-export const COLOR_LOGO = { circulo: '#DCEBD8', letras: '#284C3B' } as const;
+export const COLOR_LOGO = { circulo: colores.chip, letras: colores.textoPrincipal } as const;
 
 /** Logo de la app: cuadrado redondeado verde claro con "MS" + estetoscopio, "Med" y "Calc" (medidas relativas al diámetro). */
 export function LogoMS({ diametro = 56 }: { diametro?: number }) {
-  useTema();
   const d = diametro;
   return (
     <View
@@ -38,8 +35,8 @@ export function LogoMS({ diametro = 56 }: { diametro?: number }) {
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
+const estilos = StyleSheet.create({
   circulo: { backgroundColor: COLOR_LOGO.circulo, alignItems: 'center', justifyContent: 'center' },
   fila: { flexDirection: 'row', alignItems: 'center' },
   texto: { fontFamily: fuentes.negrita, color: COLOR_LOGO.letras, includeFontPadding: false },
-}));
+});

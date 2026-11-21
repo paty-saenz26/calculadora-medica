@@ -4,15 +4,13 @@ import { Keyboard, Platform, Pressable, StyleSheet, Text, View } from 'react-nat
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BARRA, margenInferiorBarra } from '../barraPestanas';
-import { colores, fuentes, estilosTema } from '../tema';
-import { useTema } from '../useTema';
+import { colores, fuentes } from '../tema';
 import { FondoCristal } from './FondoCristal';
 
 type PropiedadesBarra = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
 /** Barra de pestañas flotante de cristal; la pestaña activa es una píldora verde sólida (constitución, 3.1). */
 export function BarraPestanas({ state, descriptors, emitter, navigateToTab }: PropiedadesBarra) {
-  useTema();
   const insets = useSafeAreaInsets();
   const [tecladoVisible, setTecladoVisible] = useState(false);
 
@@ -69,7 +67,7 @@ export function BarraPestanas({ state, descriptors, emitter, navigateToTab }: Pr
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
+const estilos = StyleSheet.create({
   contenedor: {
     position: 'absolute',
     left: BARRA.margenLateral,
@@ -90,4 +88,4 @@ const estilos = estilosTema(() => StyleSheet.create({
   },
   pestanaActiva: { backgroundColor: colores.primario },
   etiqueta: { fontFamily: fuentes.media, fontSize: 12 },
-}));
+});

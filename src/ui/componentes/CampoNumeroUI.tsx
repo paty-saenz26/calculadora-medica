@@ -4,8 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { limpiarTecleo } from '../../domain/unidades';
 import type { CampoNumero } from '../../domain/tipos';
-import { colores, fuentes, estilosTema } from '../tema';
-import { useTema } from '../useTema';
+import { colores, fuentes } from '../tema';
 import { Cristal } from './Cristal';
 
 type Props = {
@@ -29,7 +28,6 @@ export function CampoNumeroUI({
   onTerminar,
   onCambiarUnidad,
 }: Props) {
-  useTema();
   const [enfocado, setEnfocado] = useState(false);
   const unidad = campo.unidades.find((u) => u.id === unidadId) ?? campo.unidades[0];
   const hayVarias = campo.unidades.length > 1;
@@ -88,7 +86,7 @@ export function CampoNumeroUI({
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
+const estilos = StyleSheet.create({
   contenido: { padding: 16, gap: 2 },
   fila: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 },
   etiqueta: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
@@ -115,4 +113,4 @@ const estilos = estilosTema(() => StyleSheet.create({
   unidad: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal },
   filaError: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, paddingHorizontal: 8 },
   error: { fontFamily: fuentes.media, fontSize: 18, color: colores.error, flexShrink: 1 },
-}));
+});

@@ -21,11 +21,9 @@ import { ModalCompartir } from '../../../../ui/componentes/ModalCompartir';
 import { Cristal } from '../../../../ui/componentes/Cristal';
 import { Encabezado } from '../../../../ui/componentes/Encabezado';
 import { Fondo } from '../../../../ui/componentes/Fondo';
-import { colores, fuentes, estilosTema } from '../../../../ui/tema';
-import { useTema } from '../../../../ui/useTema';
+import { colores, fuentes } from '../../../../ui/tema';
 
 export default function PantallaCalculadora() {
-  useTema();
   const { id } = useLocalSearchParams<{ id: string }>();
   const calculadora = obtenerCalculadora(id);
   if (!calculadora) {
@@ -40,7 +38,6 @@ export default function PantallaCalculadora() {
 }
 
 function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
-  useTema();
   const espacioBarra = useEspacioBarra();
 
   const [valores, setValores] = useState<Record<string, string | boolean | undefined>>({});
@@ -221,7 +218,7 @@ function CalculadoraEnVivo({ calculadora }: { calculadora: Calculadora }) {
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
+const estilos = StyleSheet.create({
   flex: { flex: 1 },
   noEncontrada: { marginTop: 120, textAlign: 'center', fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   contenido: { paddingHorizontal: 16, paddingBottom: 24, gap: 14 },
@@ -244,4 +241,4 @@ const estilos = estilosTema(() => StyleSheet.create({
   campos: { gap: 14 },
   fuente: { fontFamily: fuentes.normal, fontSize: 18, lineHeight: 26, color: colores.textoPrincipal, marginTop: 6 },
   barra: { paddingHorizontal: 16, paddingTop: 8 },
-}));
+});

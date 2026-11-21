@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { LIMITE_NOTA, validarNota } from '../../domain/historial';
-import { colores, fuentes, estilosTema } from '../tema';
-import { useTema } from '../useTema';
+import { colores, fuentes } from '../tema';
 import { Cristal } from './Cristal';
 
 type Props = {
@@ -15,7 +14,6 @@ type Props = {
 
 /** Modal para agregar, editar o quitar la nota de un cálculo (F05, R9). */
 export function ModalNota({ visible, notaInicial, onCancelar, onGuardar }: Props) {
-  useTema();
   const [texto, setTexto] = useState(notaInicial ?? '');
   useEffect(() => {
     if (visible) setTexto(notaInicial ?? '');
@@ -71,8 +69,8 @@ export function ModalNota({ visible, notaInicial, onCancelar, onGuardar }: Props
   );
 }
 
-const estilos = estilosTema(() => StyleSheet.create({
-  fondo: { flex: 1, backgroundColor: colores.velo, justifyContent: 'center', padding: 16 },
+const estilos = StyleSheet.create({
+  fondo: { flex: 1, backgroundColor: 'rgba(40,76,59,0.35)', justifyContent: 'center', padding: 16 },
   tarjeta: { backgroundColor: colores.fondoSuave2, borderRadius: 24 },
   contenido: { padding: 20, gap: 10 },
   titulo: { fontFamily: fuentes.negrita, fontSize: 24, color: colores.textoPrincipal },
@@ -99,4 +97,4 @@ const estilos = estilosTema(() => StyleSheet.create({
   quitar: { alignSelf: 'flex-start', paddingVertical: 6 },
   textoQuitar: { fontFamily: fuentes.seminegrita, fontSize: 16, color: colores.error },
   desactivado: { opacity: 0.45 },
-}));
+});

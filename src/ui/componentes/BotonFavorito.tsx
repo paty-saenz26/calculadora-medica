@@ -2,13 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 
 import { colores } from '../tema';
-import { useTema } from '../useTema';
 
 type Props = { activo: boolean; onPress: () => void; tamano?: number };
 
 /** Estrella de favoritos (F04). */
 export function BotonFavorito({ activo, onPress, tamano = 26 }: Props) {
-  useTema();
   return (
     <Pressable
       accessibilityRole="button"
