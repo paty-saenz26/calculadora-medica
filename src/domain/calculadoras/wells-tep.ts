@@ -43,7 +43,7 @@ export const wellsTep: Calculadora = {
   id: 'wells-tep',
   nombre: 'Wells para embolia pulmonar',
   descripcion: 'Probabilidad clínica de embolia pulmonar (TEP).',
-  especialidades: ['Neumología', 'Urgencias'],
+  especialidades: ['Neumología'],
   palabrasClave: ['Wells', 'TEP', 'embolia pulmonar', 'tromboembolia', 'PE', 'trombosis'],
   version: 1,
   fuente:

@@ -96,10 +96,10 @@ describe('F06 el enlace lleva el resultado', () => {
 
   it('conserva acentos y símbolos', () => {
     const { catalogo } = require('../calculadoras/catalogo');
-    const c = catalogo.find((x: { id: string }) => x.id === 'cha2ds2-vasc');
+    const c = catalogo.find((x: { id: string }) => x.id === 'cha2ds2-va');
     const entradas = { valores: {} };
     const r = evaluar(c, entradas);
-    const guardado = { ...calculo(), calculadoraId: c.id, resultado: { valor: 3, unidad: 'de 9', interpretacion: 'Riesgo alto: años ≥ 65 ✓' } };
+    const guardado = { ...calculo(), calculadoraId: c.id, resultado: { valor: 3, unidad: 'de 8', interpretacion: 'Riesgo alto: años ≥ 65 ✓' } };
     expect(r.resultado).toBeUndefined();
     expect(decodificar(urlConResultado(c, guardado)).i).toBe('Riesgo alto: años ≥ 65 ✓');
   });

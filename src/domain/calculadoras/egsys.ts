@@ -33,7 +33,7 @@ export const egsys: Calculadora = {
   id: 'egsys',
   nombre: 'EGSYS',
   descripcion: 'Probabilidad de que un síncope sea de causa cardiaca.',
-  especialidades: ['Cardiovascular', 'Urgencias'],
+  especialidades: ['Cardiovascular'],
   palabrasClave: ['EGSYS', 'síncope', 'desmayo', 'pérdida de conciencia', 'cardiaco'],
   version: 1,
   fuente:

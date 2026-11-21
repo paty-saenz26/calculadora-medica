@@ -15,7 +15,6 @@ export const ICONOS_ESPECIALIDAD: Record<string, Nombre> = {
   Oncología: 'ribbon',
   Renal: 'water-outline',
   Reumatología: 'bone',
-  Urgencias: 'ambulance',
 };
 
 export const iconoEspecialidad = (especialidad: string): Nombre =>

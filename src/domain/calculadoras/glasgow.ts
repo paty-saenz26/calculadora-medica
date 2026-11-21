@@ -67,7 +67,7 @@ export const glasgow: Calculadora = {
   id: 'glasgow',
   nombre: 'Escala de coma de Glasgow',
   descripcion: 'Nivel de conciencia con respuesta ocular, verbal y motora.',
-  especialidades: ['Neurología', 'Urgencias', 'Cuidados intensivos'],
+  especialidades: ['Cuidados intensivos'],
   palabrasClave: ['Glasgow', 'GCS', 'coma', 'conciencia', 'TCE', 'neurológico'],
   version: 1,
   fuente: 'Teasdale G, Jennett B. Assessment of coma and impaired consciousness. A practical scale. Lancet 1974;2:81-4.',

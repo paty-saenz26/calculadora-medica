@@ -104,7 +104,7 @@ export const nihss: Calculadora = {
   id: 'nihss',
   nombre: 'NIHSS',
   descripcion: 'Escala del ictus de los Institutos Nacionales de Salud (EE. UU.).',
-  especialidades: ['Neurología', 'Urgencias'],
+  especialidades: ['Neurología'],
   palabrasClave: ['NIHSS', 'NIH', 'ictus', 'EVC', 'infarto cerebral', 'stroke', 'escala neurológica'],
   version: 1,
   fuente:

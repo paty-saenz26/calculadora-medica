@@ -35,8 +35,8 @@ describe('buscarCalculadoras', () => {
     expect(ids('IMC')).toEqual(['imc-sc']);
   });
 
-  it('escribir CHA2DS2 sin subíndices encuentra CHA₂DS₂-VASc y CHA₂DS₂-VA', () => {
-    expect(ids('cha2ds2')).toEqual(['cha2ds2-vasc', 'cha2ds2-va']);
+  it('escribir CHA2DS2 sin subíndices encuentra CHA₂DS₂-VA', () => {
+    expect(ids('cha2ds2')).toEqual(['cha2ds2-va']);
   });
 
   it('el nombre exacto de la variante sin sexo la deja como coincidencia', () => {
@@ -44,7 +44,7 @@ describe('buscarCalculadoras', () => {
   });
 
   it('encuentra por la descripción', () => {
-    expect(ids('ictus')).toEqual(expect.arrayContaining(['cha2ds2-vasc', 'cha2ds2-va']));
+    expect(ids('ictus')).toEqual(expect.arrayContaining(['cha2ds2-va']));
   });
 
   it('encuentra las calculadoras nuevas por sus siglas', () => {

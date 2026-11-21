@@ -59,7 +59,7 @@ export const abcd2: Calculadora = {
   id: 'abcd2',
   nombre: 'ABCD²',
   descripcion: 'Riesgo de ictus a corto plazo después de un AIT.',
-  especialidades: ['Neurología', 'Urgencias'],
+  especialidades: ['Neurología'],
   palabrasClave: ['ABCD2', 'AIT', 'ataque isquémico transitorio', 'TIA', 'ictus', 'EVC'],
   version: 1,
   fuente:

@@ -51,9 +51,9 @@ describe('derivarFavoritas', () => {
   it('ordena de la marcada más recientemente a la más antigua', () => {
     const favoritos = [
       { calculadoraId: 'pam', fecha: 100 },
-      { calculadoraId: 'cha2ds2-vasc', fecha: 200 },
+      { calculadoraId: 'cha2ds2-va', fecha: 200 },
     ];
-    expect(derivarFavoritas(favoritos, catalogo).map((c) => c.id)).toEqual(['cha2ds2-vasc', 'pam']);
+    expect(derivarFavoritas(favoritos, catalogo).map((c) => c.id)).toEqual(['cha2ds2-va', 'pam']);
   });
 
   it('sin favoritos devuelve lista vacía', () => {
@@ -66,10 +66,16 @@ describe('agruparPorEspecialidad', () => {
   const grupo = (nombre: string) => grupos.find((g) => g.especialidad === nombre);
 
   it('agrupa por especialidad', () => {
-    expect(grupo('Cardiovascular')?.calculadoras.map((c) => c.id).sort()).toEqual(['cha2ds2-va', 'cha2ds2-vasc', 'egsys', 'pam']);
+    expect(grupo('Cardiovascular')?.calculadoras.map((c) => c.id).sort()).toEqual(['cha2ds2-va', 'egsys', 'pam']);
     expect(grupo('Renal')?.calculadoras.map((c) => c.id).sort()).toEqual(['aclaramiento-creatinina', 'ckd-epi-2021', 'deficit-bicarbonato']);
     expect(grupo('Gastroenterología')?.calculadoras.map((c) => c.id).sort()).toEqual(['child-pugh', 'fib4', 'west-haven']);
     expect(grupo('Neumología')?.calculadoras.map((c) => c.id).sort()).toEqual(['decaf', 'stop-bang', 'wells-tep']);
+  });
+
+  it('no hay grupo Urgencias y Glasgow solo está en Cuidados intensivos', () => {
+    expect(grupo('Urgencias')).toBeUndefined();
+    expect(grupo('Cuidados intensivos')?.calculadoras.map((c) => c.id)).toEqual(['glasgow']);
+    expect(grupos.filter((g) => g.calculadoras.some((c) => c.id === 'glasgow'))).toHaveLength(1);
   });
 
   it('una calculadora con varias especialidades aparece en cada una', () => {

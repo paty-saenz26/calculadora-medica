@@ -1,6 +1,5 @@
 import { aclaramientoCreatinina } from './aclaramiento-creatinina';
 import { chaDsVa } from './cha2ds2-va';
-import { chaDsVasc } from './cha2ds2-vasc';
 import { ckdEpi2021 } from './ckd-epi-2021';
 import { deficitBicarbonato } from './deficit-bicarbonato';
 import { fib4 } from './fib4';
@@ -23,7 +22,6 @@ import type { Calculadora } from '../tipos';
 /** Registro de todas las calculadoras. Agregar una = un archivo nuevo + una línea aquí (P7). */
 export const catalogo: Calculadora[] = [
   pam,
-  chaDsVasc,
   aclaramientoCreatinina,
   imcSuperficieCorporal,
   fib4,
