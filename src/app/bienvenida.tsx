@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAjustes } from '../state/instancias';
 import { Fondo } from '../ui/componentes/Fondo';
+import { LogoMS } from '../ui/componentes/LogoMS';
 import { colores, fuentes } from '../ui/tema';
 
 export default function Bienvenida() {
@@ -20,10 +21,10 @@ export default function Bienvenida() {
 
   return (
     <Fondo>
-      <View style={[estilos.contenido, { paddingTop: insets.top + 48, paddingBottom: insets.bottom + 24 }]}>
+      <View style={[estilos.contenido, { paddingTop: 0, paddingBottom: insets.bottom + 24 }]}>
         <View style={estilos.marca}>
           <View style={estilos.logo}>
-            <Text style={estilos.mas}>+</Text>
+            <LogoMS diametro={104} />
           </View>
           <Text style={estilos.nombre}>Calculadora Médica</Text>
           <Text style={estilos.lema}>Calculadoras y escalas clínicas en español, a un toque.</Text>
@@ -50,11 +51,11 @@ export default function Bienvenida() {
 
 const estilos = StyleSheet.create({
   contenido: { flex: 1, paddingHorizontal: 24, justifyContent: 'space-between' },
-  marca: { gap: 14, alignItems: 'flex-start' },
-  logo: { width: 84, height: 84, borderRadius: 22, backgroundColor: colores.primario, alignItems: 'center', justifyContent: 'center' },
+  marca: { flex: 1, gap: 14, alignItems: 'center', justifyContent: 'center' },
+  logo: { alignItems: 'center' },
   mas: { fontFamily: fuentes.negrita, fontSize: 56, lineHeight: 64, color: colores.textoSobrePrimario },
-  nombre: { fontFamily: fuentes.negrita, fontSize: 40, lineHeight: 46, color: colores.textoPrincipal },
-  lema: { fontFamily: fuentes.normal, fontSize: 20, lineHeight: 28, color: colores.textoSobreCristal },
+  nombre: { textAlign: 'center', fontFamily: fuentes.negrita, fontSize: 40, lineHeight: 46, color: colores.textoPrincipal },
+  lema: { textAlign: 'center', fontFamily: fuentes.normal, fontSize: 20, lineHeight: 28, color: colores.textoSobreCristal },
   botones: { gap: 12 },
   primario: { paddingVertical: 17, borderRadius: 999, backgroundColor: colores.primario, alignItems: 'center' },
   textoPrimario: { fontFamily: fuentes.seminegrita, fontSize: 19, color: colores.textoSobrePrimario },
