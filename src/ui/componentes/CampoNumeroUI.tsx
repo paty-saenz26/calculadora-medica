@@ -57,6 +57,7 @@ export function CampoNumeroUI({
               }}
               keyboardType={campo.entero ? 'number-pad' : 'decimal-pad'}
               placeholder="0"
+              maxLength={8}
               placeholderTextColor={colores.acento}
               style={estilos.entrada}
             />

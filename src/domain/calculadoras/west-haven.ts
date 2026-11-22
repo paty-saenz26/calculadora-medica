@@ -42,7 +42,7 @@ export const westHaven: Calculadora = {
   palabrasClave: ['West Haven', 'encefalopatía hepática', 'encefalopatia', 'cirrosis', 'hepática'],
   version: 1,
   fuente:
-    'Conn HO, et al. Comparison of lactulose and neomycin in the treatment of chronic portal-systemic encephalopathy. A double blind controlled trial. Gastroenterology 1977;72:573-83.',
+    'Conn HO, et al. Comparison of lactulose and neomycin in the treatment of chronic portal-systemic encephalopathy. A double blind controlled trial. Gastroenterology 1977;72:573-83. Vilstrup H, et al. Hepatic encephalopathy in chronic liver disease: 2014 practice guideline by AASLD and EASL. Hepatology 2014;60:715-35.',
   campos,
   reglas: [],
   calcular: calcularWestHaven,

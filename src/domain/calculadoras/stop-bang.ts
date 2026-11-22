@@ -53,7 +53,7 @@ export const stopBang: Calculadora = {
   palabrasClave: ['STOP-Bang', 'STOPBANG', 'apnea del sueño', 'AOS', 'OSA', 'ronquido', 'sueño'],
   version: 1,
   fuente:
-    'Chung F, et al. STOP questionnaire: a tool to screen patients for obstructive sleep apnea. Anesthesiology 2008;108:812-21. Chung F, et al. Br J Anaesth 2012;108:768-75. J Clin Sleep Med 2014;10:951-8.',
+    'Chung F, et al. STOP questionnaire: a tool to screen patients for obstructive sleep apnea. Anesthesiology 2008;108:812-21. Chung F, et al. Br J Anaesth 2012;108:768-75. J Clin Sleep Med 2014;10:951-8. Chung F, Abdullah HR, Liao P. Chest 2016;149:631-8.',
   campos,
   reglas: [],
   calcular: calcularStopBang,
