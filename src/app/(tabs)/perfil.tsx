@@ -73,8 +73,7 @@ export default function Perfil() {
         </Cristal>
 
         <Text style={estilos.aviso}>
-          Resultados de apoyo a la decisión clínica; no sustituyen el criterio médico. Las calculadoras están pendientes de
-          validación por un médico. Cada una muestra su fuente bibliográfica.
+          Resultados de apoyo a la decisión clínica; no sustituyen el criterio médico. Es solo una herramienta de apoyo: el diagnóstico y las decisiones clínicas requieren además la valoración del paciente, su contexto y otros estudios. Cada calculadora muestra su fuente bibliográfica.
         </Text>
         <Text style={estilos.version}>Calculadora Médica · versión {VERSION}</Text>
       </ScrollView>
