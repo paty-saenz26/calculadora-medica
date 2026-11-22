@@ -16,6 +16,7 @@ import { useAlmacen, useSesion } from '../state/instancias';
 import { CampoTexto } from '../ui/componentes/CampoTexto';
 import { Cristal } from '../ui/componentes/Cristal';
 import { Fondo } from '../ui/componentes/Fondo';
+import { LogoMS } from '../ui/componentes/LogoMS';
 import { colores, fuentes } from '../ui/tema';
 
 type Modo = 'iniciar' | 'registrar' | 'recuperar';
@@ -119,6 +120,11 @@ export default function Acceso() {
             </Cristal>
           </Pressable>
 
+          <View style={estilos.marca}>
+            <LogoMS diametro={96} verde />
+            <Text style={estilos.nombreApp}>Calculadora Médica</Text>
+            <Text style={estilos.lema}>Calculadoras y escalas clínicas</Text>
+          </View>
           <Text style={estilos.titulo}>{TITULOS[modo]}</Text>
           {modo === 'recuperar' ? (
             <Text style={estilos.texto}>Te enviaremos un enlace para restablecerla.</Text>
@@ -198,6 +204,9 @@ const estilos = StyleSheet.create({
   contenido: { paddingHorizontal: 16, gap: 14 },
   cerrar: { width: 48, height: 48 },
   contenidoCerrar: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
+  marca: { alignItems: 'center', gap: 8, marginBottom: 4 },
+  nombreApp: { fontFamily: fuentes.negrita, fontSize: 28, lineHeight: 34, color: colores.textoPrincipal, textAlign: 'center' },
+  lema: { fontFamily: fuentes.normal, fontSize: 17, color: colores.textoSobreCristal, textAlign: 'center' },
   titulo: { fontFamily: fuentes.negrita, fontSize: 32, color: colores.textoPrincipal },
   texto: { fontFamily: fuentes.normal, fontSize: 18, lineHeight: 26, color: colores.textoPrincipal },
   error: { fontFamily: fuentes.media, fontSize: 17, color: colores.error },

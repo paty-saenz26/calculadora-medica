@@ -30,6 +30,9 @@ export function BarraResultado({ estado, compacta = false }: Props) {
                 <Text style={estilos.valorCompacto}>{resultado.valor}</Text>
                 {resultado.unidad ? <Text style={estilos.unidad}>{resultado.unidad}</Text> : null}
               </View>
+              <Text style={estilos.interpretacion} numberOfLines={2}>
+                {resultado.interpretacion}
+              </Text>
               {resultado.detalles?.map((d) => (
                 <Text key={d.etiqueta} style={estilos.detalle}>
                   {d.etiqueta}: {d.valor} {d.unidad}
@@ -76,11 +79,11 @@ const estilos = StyleSheet.create({
   contenidoCompacto: { paddingHorizontal: 16, paddingVertical: 8, minHeight: 56, justifyContent: 'center' },
   titulo: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
   filaValor: { flexDirection: 'row', alignItems: 'baseline', gap: 8 },
-  valor: { fontFamily: fuentes.delgada, fontSize: 64, lineHeight: 72, color: colores.textoPrincipal },
-  valorCompacto: { fontFamily: fuentes.delgada, fontSize: 40, lineHeight: 44, color: colores.textoPrincipal },
+  valor: { fontFamily: fuentes.normal, fontSize: 64, lineHeight: 72, color: colores.textoPrincipal },
+  valorCompacto: { fontFamily: fuentes.normal, fontSize: 40, lineHeight: 44, color: colores.textoPrincipal },
   unidad: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoSobreCristal },
   detalle: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
-  interpretacion: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal },
+  interpretacion: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal, borderLeftWidth: 3, borderLeftColor: colores.primario, paddingLeft: 12, marginTop: 4 },
   mensaje: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
   filaAviso: { flexDirection: 'row', alignItems: 'center', gap: 8 },
 });

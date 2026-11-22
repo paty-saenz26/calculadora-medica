@@ -41,7 +41,7 @@ export function CampoOpcionUI({ campo, valor, onCambiar }: Props) {
 
 const estilos = StyleSheet.create({
   contenido: { padding: 16, gap: 10 },
-  etiqueta: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal },
+  etiqueta: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoPrincipal },
   opciones: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   opcion: {
     minHeight: 52,

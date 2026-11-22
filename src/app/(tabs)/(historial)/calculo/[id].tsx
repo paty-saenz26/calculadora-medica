@@ -72,7 +72,7 @@ export default function DetalleCalculo() {
                 {d.etiqueta}: {d.valor} {d.unidad}
               </Text>
             ))}
-            <Text style={estilos.texto}>{calculo.resultado.interpretacion}</Text>
+            <Text style={estilos.interpretacion}>{calculo.resultado.interpretacion}</Text>
           </View>
         </Cristal>
 
@@ -146,9 +146,10 @@ const estilos = StyleSheet.create({
   bloque: { padding: 16, gap: 8 },
   etiqueta: { fontFamily: fuentes.media, fontSize: 16, color: colores.textoSobreCristal },
   filaValor: { flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
-  valor: { fontFamily: fuentes.delgada, fontSize: 56, color: colores.textoPrincipal },
+  valor: { fontFamily: fuentes.normal, fontSize: 56, color: colores.textoPrincipal },
   unidad: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoSobreCristal, marginBottom: 10 },
   texto: { fontFamily: fuentes.normal, fontSize: 18, lineHeight: 26, color: colores.textoPrincipal },
+  interpretacion: { fontFamily: fuentes.normal, fontSize: 18, lineHeight: 26, color: colores.textoPrincipal, borderLeftWidth: 3, borderLeftColor: colores.primario, paddingLeft: 12, marginTop: 4 },
   linea: { flexDirection: 'row', justifyContent: 'space-between', gap: 12 },
   lineaEtiqueta: { fontFamily: fuentes.normal, fontSize: 17, color: colores.textoSobreCristal, flexShrink: 1 },
   lineaTexto: { fontFamily: fuentes.seminegrita, fontSize: 17, color: colores.textoPrincipal, flexShrink: 1, textAlign: 'right' },

@@ -24,7 +24,7 @@ export default function Bienvenida() {
       <View style={[estilos.contenido, { paddingTop: 0, paddingBottom: insets.bottom + 24 }]}>
         <View style={estilos.marca}>
           <View style={estilos.logo}>
-            <LogoMS diametro={104} />
+            <LogoMS diametro={104} verde />
           </View>
           <Text style={estilos.nombre}>Calculadora Médica</Text>
           <Text style={estilos.lema}>Calculadoras y escalas clínicas en español, a un toque.</Text>

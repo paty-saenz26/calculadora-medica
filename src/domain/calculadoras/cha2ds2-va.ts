@@ -3,7 +3,7 @@ import { sumarPuntos } from '../puntaje';
 import type { Calculadora, CampoSiNo, Resultado } from '../tipos';
 
 const NOTA =
-  'Estimación del riesgo de ictus en fibrilación auricular. No incluye el sexo como factor. La decisión de anticoagular depende de las guías vigentes y del criterio clínico.';
+  'No incluye el sexo como factor. La decisión de anticoagular depende de las guías vigentes y del criterio clínico.';
 
 const siNo = (id: string, etiqueta: string, puntos: number): CampoSiNo => ({
   tipo: 'sino',
@@ -31,8 +31,16 @@ const campos: Calculadora['campos'] = [
   siNo('vascular', 'Enfermedad vascular', 1),
 ];
 
+/** Recomendación según el puntaje (guía ESC 2024 de fibrilación auricular). */
+export function recomendacionChaDsVa(puntos: number): string {
+  if (puntos === 0) return 'Riesgo bajo: no se recomienda anticoagulación.';
+  if (puntos === 1) return 'Riesgo intermedio: se debe considerar la anticoagulación oral.';
+  return 'Riesgo alto: se recomienda anticoagulación oral.';
+}
+
 export function calcularChaDsVa(valores: Parameters<Calculadora['calcular']>[0]): Resultado {
-  return { valor: sumarPuntos(campos, valores), unidad: 'de 8', interpretacion: NOTA };
+  const puntos = sumarPuntos(campos, valores);
+  return { valor: puntos, unidad: 'de 8', interpretacion: `${recomendacionChaDsVa(puntos)} ${NOTA}` };
 }
 
 export const chaDsVa: Calculadora = {

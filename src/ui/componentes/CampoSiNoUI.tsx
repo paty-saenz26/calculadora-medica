@@ -37,7 +37,7 @@ export function CampoSiNoUI({ campo, valor, onCambiar }: Props) {
 
 const estilos = StyleSheet.create({
   contenido: { padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
-  etiqueta: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
+  etiqueta: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
   opciones: { flexDirection: 'row', gap: 8 },
   opcion: {
     minHeight: 52,

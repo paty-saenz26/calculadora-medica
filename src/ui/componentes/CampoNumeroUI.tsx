@@ -90,7 +90,7 @@ export function CampoNumeroUI({
 const estilos = StyleSheet.create({
   contenido: { padding: 16, gap: 2 },
   fila: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 },
-  etiqueta: { fontFamily: fuentes.media, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
+  etiqueta: { fontFamily: fuentes.seminegrita, fontSize: 18, color: colores.textoPrincipal, flexShrink: 1 },
   pista: { fontFamily: fuentes.normal, fontSize: 18, color: colores.textoSobreCristal },
   filaEntrada: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   entrada: {
