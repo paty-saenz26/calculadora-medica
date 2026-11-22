@@ -6,12 +6,21 @@ App móvil de calculadoras y escalas clínicas en español, inspirada en MDCalc.
 
 ## Qué hace
 
-- **20 calculadoras y escalas** (PAM, CHA₂DS₂-VASc, Cockcroft-Gault, IMC y superficie corporal, FIB-4, CKD-EPI 2021, Wells TEP, NIHSS, Child-Pugh, entre otras) con resultado en vivo, validación de rangos y cambio de unidades.
+- **19 calculadoras y escalas** (PAM, CHA₂DS₂-VA, Cockcroft-Gault, IMC y superficie corporal, FIB-4, CKD-EPI 2021, Wells TEP, NIHSS, Child-Pugh, entre otras) con resultado en vivo, validación de rangos y cambio de unidades.
 - **Inicio** con búsqueda en vivo (ignora acentos y mayúsculas, encuentra por siglas) y pestañas Especialidades, Recientes, Favoritas y Todas.
 - **Favoritos** con estrella.
 - **Historial** de cálculos con paginación (20 por página), notas de hasta 200 caracteres y eliminación con confirmación. Se guarda al salir de la calculadora y no repite cálculos idénticos.
 - **Cuenta** con Firebase Authentication (registro, inicio de sesión, recuperar contraseña, sesión persistente) y sincronización del historial y favoritos con Firestore. Sin cuenta se usa como invitado, todo en el teléfono.
 - **Compartir** el resultado como tarjeta con enlace (se ve con imagen en WhatsApp y otras apps) o como texto. La nota nunca se comparte.
+
+## Probar la app
+
+La app se abre con **Expo Go** (disponible en App Store y Google Play):
+
+1. Instala Expo Go en tu celular.
+2. Abre este link desde el celular: [Abrir Calculadora Médica](exp://u.expo.dev/b9fb6b2a-3e35-451f-af14-6371b8993443/group/153f85be-7646-4dc8-bc31-dc268250cfdd)
+
+Link directo: `exp://u.expo.dev/b9fb6b2a-3e35-451f-af14-6371b8993443/group/153f85be-7646-4dc8-bc31-dc268250cfdd`
 
 ## Cómo correrla
 
@@ -69,15 +78,18 @@ Sitio estático publicado con GitHub Pages: una página por calculadora con su i
 
 ## Pruebas
 
-Más de 370 pruebas con Jest: casos numéricos de cada calculadora, motor y unidades, búsqueda, historial, favoritos, validaciones de cuenta, estado (con Firestore y Auth simulados) y 6 pruebas de integración que recorren flujos completos (calcular y guardar, registro y sincronización, credenciales incorrectas, cierre de sesión, búsqueda y favoritos, paginación).
+365 pruebas con Jest: casos numéricos de cada calculadora, motor y unidades, búsqueda, historial, favoritos, validaciones de cuenta, estado (con Firestore y Auth simulados) y 6 pruebas de integración que recorren flujos completos (calcular y guardar, registro y sincronización, credenciales incorrectas, cierre de sesión, búsqueda y favoritos, paginación).
 
 ## Documentación del proyecto
 
 La especificación vive en `specs/` (Spec-Driven Development): constitución, plan, modelo de datos, navegación, una especificación por funcionalidad y una por calculadora.
 
+- [Bitácora de IA](BitacoraIA.md)
+- [Diario de decisiones](Decisiones.md)
+
 ## Pendientes conocidos
 
 - Validación médica de las fórmulas y textos.
 - Cuatro calculadoras complejas (Glasgow-Blatchford, GRACE, ASCVD 2013, Duke-ISCVID 2023).
-- Pantalla de bienvenida de la primera vez y cola de cambios pendientes sin conexión.
+- Cola de cambios pendientes sin conexión.
 - Abrir la app directamente desde el enlace compartido (requiere un build nativo).
