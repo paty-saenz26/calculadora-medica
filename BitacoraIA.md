@@ -1,4 +1,4 @@
-# Bitácora de IA
+﻿# Bitácora de IA
 
 **Herramienta:** Claude.
 **Metodología:** SDD: primero specs, luego codigo con pruebas.
@@ -27,5 +27,5 @@ En realidad la IA casi no tuvo detalles con eso, fueron cosas puntuales como:
 
 ## Cómo verifiqué
 
-- 374 pruebas automaticas unitarias y de integracion.
+- 365 pruebas automaticas unitarias y de integracion.
 - Lista propia de casos limite en el celular: sin internet, formulario vacio, texto en campo numerico, numero negativo, texto largo, doble toque, salir y volver, historial vacío.
